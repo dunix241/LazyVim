@@ -1,11 +1,13 @@
 -- Show context of the current function
+local k = require("lazyvim.keymaps").get_keymaps()
+
 return {
   "nvim-treesitter/nvim-treesitter-context",
   event = "VeryLazy",
   opts = function()
     local tsc = require("treesitter-context")
 
-    LazyVim.toggle.map("<leader>ut", {
+    LazyVim.toggle.map(k.tscontext_toggle, {
       name = "Treesitter Context",
       get = tsc.enabled,
       set = function(state)

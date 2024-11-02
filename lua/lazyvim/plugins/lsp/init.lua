@@ -1,3 +1,4 @@
+local k = require("lazyvim.keymaps").get_keymaps()
 return {
   -- lspconfig
   {
@@ -265,7 +266,7 @@ return {
 
     "williamboman/mason.nvim",
     cmd = "Mason",
-    keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
+    keys = { { k.lang_mason, "<cmd>Mason<cr>", desc = "Mason" } },
     build = ":MasonUpdate",
     opts_extend = { "ensure_installed" },
     opts = {

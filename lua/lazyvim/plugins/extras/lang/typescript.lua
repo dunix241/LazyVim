@@ -1,3 +1,5 @@
+local k = require("lazyvim.keymaps").get_keymaps()
+
 return {
   recommended = function()
     return LazyVim.extras.wants({
@@ -66,7 +68,7 @@ return {
           },
           keys = {
             {
-              "gD",
+              k.typescript_go_to_source_definition,
               function()
                 local params = vim.lsp.util.make_position_params()
                 LazyVim.lsp.execute({
@@ -78,7 +80,7 @@ return {
               desc = "Goto Source Definition",
             },
             {
-              "gR",
+              k.lang_file_references,
               function()
                 LazyVim.lsp.execute({
                   command = "typescript.findAllFileReferences",
@@ -89,27 +91,27 @@ return {
               desc = "File References",
             },
             {
-              "<leader>co",
+              k.lang_organize_imports,
               LazyVim.lsp.action["source.organizeImports"],
               desc = "Organize Imports",
             },
             {
-              "<leader>cM",
+              k.lang_add_missing_imports,
               LazyVim.lsp.action["source.addMissingImports.ts"],
               desc = "Add missing imports",
             },
             {
-              "<leader>cu",
+              k.lang_remove_unused_imports,
               LazyVim.lsp.action["source.removeUnused.ts"],
               desc = "Remove unused imports",
             },
             {
-              "<leader>cD",
+              k.lang_fix_all_diagnostics,
               LazyVim.lsp.action["source.fixAll.ts"],
               desc = "Fix all diagnostics",
             },
             {
-              "<leader>cV",
+              k.lang_select_lang_version,
               function()
                 LazyVim.lsp.execute({ command = "typescript.selectTypeScriptVersion" })
               end,

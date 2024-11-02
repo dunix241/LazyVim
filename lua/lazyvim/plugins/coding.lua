@@ -1,3 +1,5 @@
+local k = require("lazyvim.keymaps").get_keymaps()
+
 return {
 
   -- auto completion
@@ -24,26 +26,37 @@ return {
       local cmp = require("cmp")
       local defaults = require("cmp.config.default")()
       local auto_select = true
+      local mappings = {}
+      local actions = {
+        { k.cmp_scroll_docs_backward, cmp.mapping.scroll_docs(-4) },
+        { k.cmp_complete, cmp.mapping.complete() },
+        { k.cmp_confirm_auto_select, LazyVim.cmp.confirm({ select = auto_select }) },
+        { k.cmp_confirm_select, LazyVim.cmp.confirm({ select = true }) },
+        { k.cmp_select_prev_item, cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }) },
+        { k.cmp_scroll_docs_forward, cmp.mapping.scroll_docs(4) },
+        { k.cmp_select_next_item, cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }) },
+        { k.cmp_confirm_replace, LazyVim.cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace }) }, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        {
+          k.cmp_abort,
+          function(fallback)
+            cmp.abort()
+            fallback()
+          end,
+        },
+      }
+      for _, action in ipairs(actions) do
+        if action[1] and action[1] ~= "" then
+          mappings[action[1]] = action[2]
+        end
+      end
+
       return {
         auto_brackets = {}, -- configure any filetype to auto add brackets
         completion = {
           completeopt = "menu,menuone,noinsert" .. (auto_select and "" or ",noselect"),
         },
         preselect = auto_select and cmp.PreselectMode.Item or cmp.PreselectMode.None,
-        mapping = cmp.mapping.preset.insert({
-          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
-          ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-          ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-          ["<C-Space>"] = cmp.mapping.complete(),
-          ["<CR>"] = LazyVim.cmp.confirm({ select = auto_select }),
-          ["<C-y>"] = LazyVim.cmp.confirm({ select = true }),
-          ["<S-CR>"] = LazyVim.cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-          ["<C-CR>"] = function(fallback)
-            cmp.abort()
-            fallback()
-          end,
-        }),
+        mapping = cmp.mapping.preset.insert(mappings),
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
           { name = "path" },
@@ -107,7 +120,7 @@ return {
     end,
     keys = {
       {
-        "<Tab>",
+        k.snippet_jump_prev,
         function()
           return vim.snippet.active({ direction = 1 }) and "<cmd>lua vim.snippet.jump(1)<cr>" or "<Tab>"
         end,
@@ -116,7 +129,7 @@ return {
         mode = { "i", "s" },
       },
       {
-        "<S-Tab>",
+        k.snippet_jump_next,
         function()
           return vim.snippet.active({ direction = -1 }) and "<cmd>lua vim.snippet.jump(-1)<cr>" or "<S-Tab>"
         end,
@@ -165,8 +178,8 @@ return {
         n_lines = 500,
         custom_textobjects = {
           o = ai.gen_spec.treesitter({ -- code block
-            a = { "@block.outer", "@conditional.outer", "@loop.outer" },
-            i = { "@block.inner", "@conditional.inner", "@loop.inner" },
+            a = { "@block", "@conditional.outer", "@loop.outer" },
+            i = { "@block", "@conditional.inner", "@loop.inner" },
           }),
           f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }), -- function
           c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }), -- class

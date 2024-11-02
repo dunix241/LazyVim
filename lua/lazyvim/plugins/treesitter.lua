@@ -1,10 +1,12 @@
+local k = require("lazyvim.keymaps").get_keymaps()
+
 return {
   {
     "folke/which-key.nvim",
     opts = {
       spec = {
-        { "<BS>", desc = "Decrement Selection", mode = "x" },
-        { "<c-space>", desc = "Increment Selection", mode = { "x", "n" } },
+        { k.ts_decrement_selection, desc = "Decrement Selection", mode = "x" },
+        { k.ts_increment_selection, desc = "Increment Selection", mode = { "x", "n" } },
       },
     },
   },
@@ -29,8 +31,8 @@ return {
     end,
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
     keys = {
-      { "<c-space>", desc = "Increment Selection" },
-      { "<bs>", desc = "Decrement Selection", mode = "x" },
+      { k.ts_increment_selection, desc = "Increment Selection" },
+      { k.ts_decrement_selection, desc = "Decrement Selection", mode = "x" },
     },
     opts_extend = { "ensure_installed" },
     ---@type TSConfig
@@ -67,19 +69,38 @@ return {
       incremental_selection = {
         enable = true,
         keymaps = {
-          init_selection = "<C-space>",
-          node_incremental = "<C-space>",
+          init_selection = (k.ts_increment_selection and k.ts_increment_selection ~= "") and k.ts_increment_selection
+            or false,
+          node_incremental = (k.ts_increment_selection and k.ts_increment_selection ~= "") and k.ts_increment_selection
+            or false,
           scope_incremental = false,
-          node_decremental = "<bs>",
+          node_decremental = (k.ts_decrement_selection and k.ts_decrement_selection ~= "") and k.ts_decrement_selection
+            or false,
         },
       },
       textobjects = {
         move = {
           enable = true,
-          goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer", ["]a"] = "@parameter.inner" },
-          goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer", ["]A"] = "@parameter.inner" },
-          goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer", ["[a"] = "@parameter.inner" },
-          goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer", ["[A"] = "@parameter.inner" },
+          goto_next_start = {
+            [k.ts_ns_function_outer] = "@function.outer",
+            [k.ts_ns_class_outer] = "@class.outer",
+            [k.ts_ns_parameter_inner] = "@parameter.inner",
+          },
+          goto_next_end = {
+            [k.ts_ne_function_outer] = "@function.outer",
+            [k.ts_ne_class_outer] = "@class.outer",
+            [k.ts_ne_parameter_inner] = "@parameter.inner",
+          },
+          goto_previous_start = {
+            [k.ts_ps_function_outer] = "@function.outer",
+            [k.ts_ps_class_outer] = "@class.outer",
+            [k.ts_ps_parameter_inner] = "@parameter.inner",
+          },
+          goto_previous_end = {
+            [k.ts_pe_function_outer] = "@function.outer",
+            [k.ts_pe_class_outer] = "@class.outer",
+            [k.ts_pe_parameter_inner] = "@parameter.inner",
+          },
         },
       },
     },

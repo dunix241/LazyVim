@@ -1,3 +1,5 @@
+local k = require("lazyvim.keymaps").get_keymaps()
+
 return {
   desc = "Aerial Symbol Browser",
   {
@@ -43,7 +45,7 @@ return {
       return opts
     end,
     keys = {
-      { "<leader>cs", "<cmd>AerialToggle<cr>", desc = "Aerial (Symbols)" },
+      { k.aerial_toggle, "<cmd>AerialToggle<cr>", desc = "Aerial (Symbols)" },
     },
   },
 
@@ -51,7 +53,7 @@ return {
     "folke/trouble.nvim",
     optional = true,
     keys = {
-      { "<leader>cs", false },
+      { k.trouble_symbols_toggle, false },
     },
   },
 
@@ -66,7 +68,7 @@ return {
     end,
     keys = {
       {
-        "<leader>ss",
+        k.picker_go_to_symbol,
         "<cmd>Telescope aerial<cr>",
         desc = "Goto Symbol (Aerial)",
       },

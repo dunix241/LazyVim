@@ -1,3 +1,6 @@
+local map = LazyVim.keymap_set
+local k = require("lazyvim.keymaps").get_keymaps()
+
 return {
   recommended = function()
     return LazyVim.extras.wants({
@@ -45,10 +48,10 @@ return {
     opts = {
       server = {
         on_attach = function(_, bufnr)
-          vim.keymap.set("n", "<leader>cR", function()
+          map("n", k.rust_code_action, function()
             vim.cmd.RustLsp("codeAction")
           end, { desc = "Code Action", buffer = bufnr })
-          vim.keymap.set("n", "<leader>dr", function()
+          map("n", k.rust_debuggables, function()
             vim.cmd.RustLsp("debuggables")
           end, { desc = "Rust Debuggables", buffer = bufnr })
         end,

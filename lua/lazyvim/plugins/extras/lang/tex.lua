@@ -1,3 +1,5 @@
+local k = require("lazyvim.keymaps").get_keymaps()
+
 return {
   recommended = function()
     return LazyVim.extras.wants({
@@ -30,7 +32,7 @@ return {
       vim.g.vimtex_quickfix_method = vim.fn.executable("pplatex") == 1 and "pplatex" or "latexlog"
     end,
     keys = {
-      { "<localLeader>l", "", desc = "+vimtex" },
+      { k.tex_prefix, "", desc = "+vimtex" },
     },
   },
 
@@ -42,7 +44,7 @@ return {
       servers = {
         texlab = {
           keys = {
-            { "<Leader>K", "<plug>(vimtex-doc-package)", desc = "Vimtex Docs", silent = true },
+            { k.tex_vimtex_docs, "<plug>(vimtex-doc-package)", desc = "Vimtex Docs", silent = true },
           },
         },
       },

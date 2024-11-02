@@ -1,3 +1,5 @@
+local k = require("lazyvim.keymaps").get_keymaps()
+
 return {
   recommended = true,
   desc = "Neotest support. Requires language specific adapters to be configured. (see lang extras)",
@@ -105,16 +107,16 @@ return {
     end,
     -- stylua: ignore
     keys = {
-      {"<leader>t", "", desc = "+test"},
-      { "<leader>tt", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Run File" },
-      { "<leader>tT", function() require("neotest").run.run(vim.uv.cwd()) end, desc = "Run All Test Files" },
-      { "<leader>tr", function() require("neotest").run.run() end, desc = "Run Nearest" },
-      { "<leader>tl", function() require("neotest").run.run_last() end, desc = "Run Last" },
-      { "<leader>ts", function() require("neotest").summary.toggle() end, desc = "Toggle Summary" },
-      { "<leader>to", function() require("neotest").output.open({ enter = true, auto_close = true }) end, desc = "Show Output" },
-      { "<leader>tO", function() require("neotest").output_panel.toggle() end, desc = "Toggle Output Panel" },
-      { "<leader>tS", function() require("neotest").run.stop() end, desc = "Stop" },
-      { "<leader>tw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end, desc = "Toggle Watch" },
+      { k.test_prefix, "", desc = "+test"},
+      { k.test_run_file, function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Run File" },
+      { k.test_run_all_test_files, function() require("neotest").run.run(vim.uv.cwd()) end, desc = "Run All Test Files" },
+      { k.test_run_nearest, function() require("neotest").run.run() end, desc = "Run Nearest" },
+      { k.test_run_last, function() require("neotest").run.run_last() end, desc = "Run Last" },
+      { k.test_toggle_summary, function() require("neotest").summary.toggle() end, desc = "Toggle Summary" },
+      { k.test_show_output, function() require("neotest").output.open({ enter = true, auto_close = true }) end, desc = "Show Output" },
+      { k.test_toggle_output_panel, function() require("neotest").output_panel.toggle() end, desc = "Toggle Output Panel" },
+      { k.test_stop, function() require("neotest").run.stop() end, desc = "Stop" },
+      { k.test_toggle_watch, function() require("neotest").watch.toggle(vim.fn.expand("%")) end, desc = "Toggle Watch" },
     },
   },
   {
@@ -122,7 +124,7 @@ return {
     optional = true,
     -- stylua: ignore
     keys = {
-      { "<leader>td", function() require("neotest").run.run({strategy = "dap"}) end, desc = "Debug Nearest" },
+      { k.test_debug_nearest, function() require("neotest").run.run({strategy = "dap"}) end, desc = "Debug Nearest" },
     },
   },
 }

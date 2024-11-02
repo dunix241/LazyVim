@@ -1,3 +1,5 @@
+local k = require("lazyvim.keymaps").get_keymaps()
+
 local pick_chezmoi = function()
   if LazyVim.pick.picker.name == "telescope" then
     require("telescope").extensions.chezmoi.find_files()
@@ -35,7 +37,7 @@ return {
     "xvzc/chezmoi.nvim",
     keys = {
       {
-        "<leader>sz",
+        k.chezmoi_pick_chezmoi,
         pick_chezmoi,
         desc = "Chezmoi",
       },
@@ -51,7 +53,7 @@ return {
         on_watch = false,
       },
       telescope = {
-        select = { "<CR>" },
+        select = k.chezmoi_select == "" and {} or { k.chezmoi_select },
       },
     },
     init = function()
@@ -68,11 +70,15 @@ return {
     "nvimdev/dashboard-nvim",
     optional = true,
     opts = function(_, opts)
+      if not k.chezmoi_key or k.chezmoi_key == "" then
+        return opts
+      end
+
       local projects = {
         action = pick_chezmoi,
         desc = "  Config",
         icon = "",
-        key = "c",
+        key = k.chezmoi_key,
       }
 
       projects.desc = projects.desc .. string.rep(" ", 43 - #projects.desc)

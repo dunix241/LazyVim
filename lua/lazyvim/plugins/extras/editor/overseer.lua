@@ -1,3 +1,5 @@
+local k = require("lazyvim.keymaps").get_keymaps()
+
 return {
   {
     "catppuccin",
@@ -51,13 +53,13 @@ return {
     },
     -- stylua: ignore
     keys = {
-      { "<leader>ow", "<cmd>OverseerToggle<cr>",      desc = "Task list" },
-      { "<leader>oo", "<cmd>OverseerRun<cr>",         desc = "Run task" },
-      { "<leader>oq", "<cmd>OverseerQuickAction<cr>", desc = "Action recent task" },
-      { "<leader>oi", "<cmd>OverseerInfo<cr>",        desc = "Overseer Info" },
-      { "<leader>ob", "<cmd>OverseerBuild<cr>",       desc = "Task builder" },
-      { "<leader>ot", "<cmd>OverseerTaskAction<cr>",  desc = "Task action" },
-      { "<leader>oc", "<cmd>OverseerClearCache<cr>",  desc = "Clear cache" },
+      { k.overseer_toggle, "<cmd>OverseerToggle<cr>",      desc = "Task list" },
+      { k.overseer_run, "<cmd>OverseerRun<cr>",         desc = "Run task" },
+      { k.overseer_quick_action, "<cmd>OverseerQuickAction<cr>", desc = "Action recent task" },
+      { k.overseer_info, "<cmd>OverseerInfo<cr>",        desc = "Overseer Info" },
+      { k.overseer_build, "<cmd>OverseerBuild<cr>",       desc = "Task builder" },
+      { k.overseer_task_action, "<cmd>OverseerTaskAction<cr>",  desc = "Task action" },
+      { k.overseer_clear_cache, "<cmd>OverseerClearCache<cr>",  desc = "Clear cache" },
     },
   },
   {
@@ -65,7 +67,7 @@ return {
     optional = true,
     opts = {
       spec = {
-        { "<leader>o", group = "overseer" },
+        k.overseer_prefix == "" and {} or { k.overseer_prefix, group = "overseer" },
       },
     },
   },
