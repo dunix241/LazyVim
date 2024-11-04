@@ -304,7 +304,7 @@ M.default_keymaps = {
   copilotchat_clear = "<leader>ax",
   copilotchat_quick_chat = "<leader>aq",
   copilotchat_diagnostic_help = "<leader>ad",
-  copilotchat_prompt_actionsr = "<leader>ap",
+  copilotchat_prompt_actions = "<leader>ap",
   -- },
   -- mini_surround = {
   minisurround_prefix = "gs",
