@@ -114,9 +114,6 @@ return {
 
       return vim.tbl_deep_extend("force", defaults, {
         fzf_colors = true,
-        fzf_opts = {
-          ["--no-scrollbar"] = true,
-        },
         defaults = {
           -- formatter = "path.filename_first",
           formatter = "path.dirname_first",
