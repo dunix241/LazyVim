@@ -8,7 +8,7 @@ local keymaps = nil
 
 ---@class LazyVimKeymaps
 M.default_keymaps = {
-  -- keymaps = {
+  -- global = {
   --   window = {
   window_left = "<C-h>",
   window_lower = "<C-j>",
