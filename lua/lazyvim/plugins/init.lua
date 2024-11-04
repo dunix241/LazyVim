@@ -11,6 +11,6 @@ end
 require("lazyvim.config").init()
 
 return {
-  { "folke/lazy.nvim", version = "*" },
-  { "LazyVim/LazyVim", priority = 10000, lazy = false, opts = {}, cond = true, version = "*" },
+  { "dunix241/lazy.nvim", branch = "feat/main" },
+  { "dunix241/LazyVim", branch = "feat/main", priority = 10000, lazy = false, opts = {}, cond = true, version = "*" },
 }
