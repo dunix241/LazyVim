@@ -70,7 +70,7 @@ return {
       -- Show help actions with telescope
       { k.copilotchat_diagnostic_help, M.pick("help"), desc = "Diagnostic Help (CopilotChat)", mode = { "n", "v" } },
       -- Show prompts actions with telescope
-      { k.copilotchat_prompt_actionsr, M.pick("prompt"), desc = "Prompt Actions (CopilotChat)", mode = { "n", "v" } },
+      { k.copilotchat_prompt_actions, M.pick("prompt"), desc = "Prompt Actions (CopilotChat)", mode = { "n", "v" } },
     },
     config = function(_, opts)
       local chat = require("CopilotChat")
