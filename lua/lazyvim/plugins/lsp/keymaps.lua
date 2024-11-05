@@ -19,11 +19,26 @@ function M.get()
     { k.lang_go_to_implementation, vim.lsp.buf.implementation, desc = "Goto Implementation" },
     { k.lang_go_to_type_definition, vim.lsp.buf.type_definition, desc = "Goto T[y]pe Definition" },
     { k.lang_go_to_declaration, vim.lsp.buf.declaration, desc = "Goto Declaration" },
-    { k.lang_hover, vim.lsp.buf.hover, desc = "Hover" },
-    { k.lang_signature_help, vim.lsp.buf.signature_help, desc = "Signature Help", has = "signatureHelp" },
+    {
+      k.lang_hover,
+      function()
+        return vim.lsp.buf.hover()
+      end,
+      desc = "Hover",
+    },
+    {
+      k.lang_signature_help,
+      function()
+        return vim.lsp.buf.signature_help()
+      end,
+      desc = "Signature Help",
+      has = "signatureHelp",
+    },
     {
       k.lang_insert_signature_help,
-      vim.lsp.buf.signature_help,
+      function()
+        return vim.lsp.buf.signature_help()
+      end,
       mode = "i",
       desc = "Signature Help",
       has = "signatureHelp",
@@ -39,7 +54,9 @@ function M.get()
     },
     {
       k.lang_rename_file,
-      LazyVim.lsp.rename_file,
+      function()
+        Snacks.rename.rename_file()
+      end,
       desc = "Rename File",
       mode = { "n" },
       has = { "workspace/didRenameFiles", "workspace/willRenameFiles" },
@@ -49,45 +66,45 @@ function M.get()
     {
       k.lang_next_reference,
       function()
-        LazyVim.lsp.words.jump(vim.v.count1)
+        Snacks.words.jump(vim.v.count1)
       end,
       has = "documentHighlight",
       desc = "Next Reference",
       cond = function()
-        return LazyVim.lsp.words.enabled
+        return Snacks.words.is_enabled()
       end,
     },
     {
       k.lang_prev_reference,
       function()
-        LazyVim.lsp.words.jump(-vim.v.count1)
+        Snacks.words.jump(-vim.v.count1)
       end,
       has = "documentHighlight",
       desc = "Prev Reference",
       cond = function()
-        return LazyVim.lsp.words.enabled
+        return Snacks.words.is_enabled()
       end,
     },
     {
       k.lang_cycle_next_reference,
       function()
-        LazyVim.lsp.words.jump(vim.v.count1, true)
+        Snacks.words.jump(vim.v.count1, true)
       end,
       has = "documentHighlight",
       desc = "Next Reference",
       cond = function()
-        return LazyVim.lsp.words.enabled
+        return Snacks.words.is_enabled()
       end,
     },
     {
       k.lang_cycle_prev_reference,
       function()
-        LazyVim.lsp.words.jump(-vim.v.count1, true)
+        Snacks.words.jump(-vim.v.count1, true)
       end,
       has = "documentHighlight",
       desc = "Prev Reference",
       cond = function()
-        return LazyVim.lsp.words.enabled
+        return Snacks.words.is_enabled()
       end,
     },
   }

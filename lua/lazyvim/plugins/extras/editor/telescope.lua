@@ -6,8 +6,13 @@ if lazyvim_docs then
   vim.g.lazyvim_picker = "telescope"
 end
 
-local have_make = vim.fn.executable("make") == 1
-local have_cmake = vim.fn.executable("cmake") == 1
+local build_cmd ---@type string?
+for _, cmd in ipairs({ "make", "cmake", "gmake" }) do
+  if vim.fn.executable(cmd) == 1 then
+    build_cmd = cmd
+    break
+  end
+end
 
 ---@type LazyPicker
 local picker = {
@@ -65,9 +70,9 @@ return {
     dependencies = {
       {
         "nvim-telescope/telescope-fzf-native.nvim",
-        build = have_make and "make"
+        build = (build_cmd ~= "cmake") and "make"
           or "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-        enabled = have_make or have_cmake,
+        enabled = build_cmd ~= nil,
         config = function(plugin)
           LazyVim.on_load("telescope.nvim", function()
             local ok, err = pcall(require("telescope").load_extension, "fzf")
@@ -96,7 +101,11 @@ return {
       { k.picker_command_history, "<cmd>Telescope command_history<cr>", desc = "Command History" },
       { k.picker_find_files_root, LazyVim.pick("files"), desc = "Find Files (Root Dir)" },
       -- find
-      { k.picker_find_buffers, "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
+      {
+        k.picker_find_buffers,
+        "<cmd>Telescope buffers sort_mru=true sort_lastused=true ignore_current_buffer=true<cr>",
+        desc = "Buffers",
+      },
       { k.picker_find_config_file, LazyVim.pick.config_files(), desc = "Find Config File" },
       { k.picker_find_files_root_alt, LazyVim.pick("files"), desc = "Find Files (Root Dir)" },
       { k.picker_find_files_cwd, LazyVim.pick("files", { root = false }), desc = "Find Files (cwd)" },

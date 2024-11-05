@@ -25,6 +25,7 @@ return {
           local wk = require("which-key")
           wk.add({
             buffer = true,
+            mode = { "n", "v" },
             { k.r_send_all, group = "all" },
             { k.r_send_between_marks, group = "between marks" },
             { k.r_send_chunks, group = "chunks" },
