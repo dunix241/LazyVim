@@ -47,7 +47,7 @@ end
 
 return {
   {
-    "LazyVim/LazyVim",
+    "dunix241/LazyVim",
     config = function(_, opts)
       opts = opts or {}
       -- disable the colorscheme
