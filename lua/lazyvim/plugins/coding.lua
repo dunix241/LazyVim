@@ -33,7 +33,7 @@ return {
         { k.cmp_select_next_item, cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }) },
         { k.cmp_select_prev_item, cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }) },
         { k.cmp_complete, cmp.mapping.complete() },
-        { k.cmp_confirm_auto_select.cmp.confirm({ select, auto_select }) },
+        { k.cmp_confirm_auto_select, LazyVim.cmp.confirm({ select, auto_select }) },
         { k.cmp_confirm_select, LazyVim.cmp.confirm({ select = true }) },
         { k.cmp_confirm_replace, LazyVim.cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace }) }, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         {
