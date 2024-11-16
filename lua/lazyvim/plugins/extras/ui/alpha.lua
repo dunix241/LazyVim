@@ -26,11 +26,11 @@ return {
       -- stylua: ignore
       dashboard.section.buttons.val = {}
       local actions = {
-        { k.dashboard_find_file, " " .. " Find file", LazyVim.pick() },
+        { k.dashboard_find_file, " " .. " Find file", "<cmd> lua LazyVim.pick()() <cr>" },
         { k.dashboard_new_file, " " .. " New file", [[<cmd> ene <BAR> startinsert <cr>]] },
-        { k.dashboard_recent_files, " " .. " Recent files", LazyVim.pick("oldfiles") },
-        { k.dashboard_find_text, " " .. " Find text", LazyVim.pick("live_grep") },
-        { k.dashboard_config, " " .. " Config", LazyVim.pick.config_files() },
+        { k.dashboard_recent_files, " " .. " Recent files", [[<cmd> lua LazyVim.pick("oldfiles")() <cr>]] },
+        { k.dashboard_find_text, " " .. " Find text", [[<cmd> lua LazyVim.pick("live_grep")() <cr>]] },
+        { k.dashboard_config, " " .. " Config", "<cmd> lua LazyVim.pick.config_files()() <cr>" },
         { k.dashboard_restore_session, " " .. " Restore Session", [[<cmd> lua require("persistence").load() <cr>]] },
         { k.dashboard_lazy_extras, " " .. " Lazy Extras", "<cmd> LazyExtras <cr>" },
         { k.dashboard_lazy, "󰒲 " .. " Lazy", "<cmd> Lazy <cr>" },

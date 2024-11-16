@@ -23,7 +23,7 @@ return {
       end,
     })
 
-    LazyVim.toggle.map(k.minianimae_toggle, {
+    Snacks.toggle({
       name = "Mini Animate",
       get = function()
         return not vim.g.minianimate_disable
@@ -31,7 +31,7 @@ return {
       set = function(state)
         vim.g.minianimate_disable = not state
       end,
-    })
+    }):map(k.minianimae_toggle)
 
     local animate = require("mini.animate")
     return {

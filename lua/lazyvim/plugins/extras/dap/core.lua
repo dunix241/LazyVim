@@ -8,12 +8,12 @@ local function get_args(config)
   config = vim.deepcopy(config)
   ---@cast args string[]
   config.args = function()
-    local new_args = vim.fn.expand(vim.fn.input("Run with args: ", args_str))
+    local new_args = vim.fn.expand(vim.fn.input("Run with args: ", args_str)) --[[@as string]]
     if config.type and config.type == "java" then
       ---@diagnostic disable-next-line: return-type-mismatch
       return new_args
     end
-    return vim.split(new_args, " ")
+    return require("dap.utils").splitstr(new_args)
   end
   return config
 end
@@ -38,7 +38,7 @@ return {
       { k.dap_prefix, "", desc = "+debug", mode = {"n", "v"} },
       { k.dap_breakpoint_condition, function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = "Breakpoint Condition" },
       { k.dap_toggle_breakpoint, function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
-      { k.dap_continue, function() require("dap").continue() end, desc = "Continue" },
+      { k.dap_continue, function() require("dap").continue() end, desc = "Run/Continue" },
       { k.dap_run_with_args, function() require("dap").continue({ before = get_args }) end, desc = "Run with Args" },
       { k.dap_run_to_cursor, function() require("dap").run_to_cursor() end, desc = "Run to Cursor" },
       { k.dap_go_to_line_no_execute, function() require("dap").goto_() end, desc = "Go to Line (No Execute)" },

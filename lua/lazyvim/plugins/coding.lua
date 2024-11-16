@@ -29,18 +29,24 @@ return {
       local mappings = {}
       local actions = {
         { k.cmp_scroll_docs_backward, cmp.mapping.scroll_docs(-4) },
-        { k.cmp_complete, cmp.mapping.complete() },
-        { k.cmp_confirm_auto_select, LazyVim.cmp.confirm({ select = auto_select }) },
-        { k.cmp_confirm_select, LazyVim.cmp.confirm({ select = true }) },
-        { k.cmp_select_prev_item, cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }) },
         { k.cmp_scroll_docs_forward, cmp.mapping.scroll_docs(4) },
         { k.cmp_select_next_item, cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }) },
+        { k.cmp_select_prev_item, cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }) },
+        { k.cmp_complete, cmp.mapping.complete() },
+        { k.cmp_confirm_auto_select.cmp.confirm({ select, auto_select }) },
+        { k.cmp_confirm_select, LazyVim.cmp.confirm({ select = true }) },
         { k.cmp_confirm_replace, LazyVim.cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace }) }, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         {
           k.cmp_abort,
           function(fallback)
             cmp.abort()
             fallback()
+          end,
+        },
+        {
+          k.cmp_snippet_forward_ai_accept,
+          function(fallback)
+            return LazyVim.cmp.map({ "snippet_forward", "ai_accept" }, fallback)()
           end,
         },
       }
@@ -85,9 +91,10 @@ return {
           end,
         },
         experimental = {
-          ghost_text = {
+          -- only show ghost text when we show ai completions
+          ghost_text = vim.g.ai_cmp and {
             hl_group = "CmpGhostText",
-          },
+          } or false,
         },
         sorting = defaults.sorting,
       }
@@ -118,26 +125,6 @@ return {
         table.insert(opts.sources, { name = "snippets" })
       end
     end,
-    keys = {
-      {
-        k.snippet_jump_prev,
-        function()
-          return vim.snippet.active({ direction = 1 }) and "<cmd>lua vim.snippet.jump(1)<cr>" or "<Tab>"
-        end,
-        expr = true,
-        silent = true,
-        mode = { "i", "s" },
-      },
-      {
-        k.snippet_jump_next,
-        function()
-          return vim.snippet.active({ direction = -1 }) and "<cmd>lua vim.snippet.jump(-1)<cr>" or "<S-Tab>"
-        end,
-        expr = true,
-        silent = true,
-        mode = { "i", "s" },
-      },
-    },
   },
 
   -- auto pairs
@@ -214,6 +201,7 @@ return {
       library = {
         { path = "luvit-meta/library", words = { "vim%.uv" } },
         { path = "LazyVim", words = { "LazyVim" } },
+        { path = "snacks.nvim", words = { "Snacks" } },
         { path = "lazy.nvim", words = { "LazyVim" } },
       },
     },

@@ -38,7 +38,12 @@ map("n", k.buf_prev_alt, "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 map("n", k.buf_next_alt, "<cmd>bnext<cr>", { desc = "Next Buffer" })
 map("n", k.buf_switch_to_other, "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 map("n", k.buf_switch_to_other_alt, "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
-map("n", k.buf_delete, LazyVim.ui.bufremove, { desc = "Delete Buffer" })
+map("n", k.buf_delete, function()
+  Snacks.bufdelete()
+end, { desc = "Delete Buffer" })
+map("n", k.buf_delete_other, function()
+  Snacks.bufdelete.other()
+end, { desc = "Delete Other Buffers" })
 map("n", k.buf_delete_and_close, "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
 
 -- Clear search with <esc>
@@ -116,37 +121,30 @@ map("n", k.diagnostic_prev_warning, diagnostic_goto(false, "WARN"), { desc = "Pr
 -- stylua: ignore start
 
 -- toggle options
-LazyVim.toggle.map(k.toggle_auto_format_buffer, LazyVim.toggle.format())
-LazyVim.toggle.map(k.toggle_auto_format_global, LazyVim.toggle.format(true))
-LazyVim.toggle.map(k.toggle_spelling, LazyVim.toggle("spell", { name = "Spelling" }))
-LazyVim.toggle.map(k.toggle_wrap, LazyVim.toggle("wrap", { name = "Wrap" }))
-LazyVim.toggle.map(k.toggle_relativenumber, LazyVim.toggle("relativenumber", { name = "Relative Number" }))
-LazyVim.toggle.map(k.toggle_diagnostics, LazyVim.toggle.diagnostics)
-LazyVim.toggle.map(k.toggle_number, LazyVim.toggle.number)
-LazyVim.toggle.map(k.toggle_conceallevel, LazyVim.toggle("conceallevel", { values = { 0, vim.o.conceallevel > 0 and vim.o.conceallevel or 2 } }))
-LazyVim.toggle.map(k.toggle_treesitter, LazyVim.toggle.treesitter)
-LazyVim.toggle.map(k.toggle_background, LazyVim.toggle("background", { values = { "light", "dark" }, name = "Background" }))
+LazyVim.format.snacks_toggle():map(k.toggle_auto_format_buffer)
+LazyVim.format.snacks_toggle(true):map(k.toggle_auto_format_global)
+Snacks.toggle.option("spell", { name = "Spelling"}):map(k.toggle_spelling)
+Snacks.toggle.option("wrap", {name = "Wrap"}):map(k.toggle_wrap)
+Snacks.toggle.option("relativenumber", { name = "Relative Number"}):map(k.toggle_relativenumber)
+Snacks.toggle.diagnostics():map(k.toggle_diagnostics)
+Snacks.toggle.line_number():map(k.toggle_number)
+Snacks.toggle.option("conceallevel", {off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2}):map(k.toggle_conceallevel)
+Snacks.toggle.treesitter():map(k.toggle_treesitter)
+Snacks.toggle.option("background", { off = "light", on = "dark" , name = "Dark Background"}):map(k.toggle_background)
 if vim.lsp.inlay_hint then
-  LazyVim.toggle.map(k.toggle_inlay_hints, LazyVim.toggle.inlay_hints)
+  Snacks.toggle.inlay_hints():map(k.toggle_inlay_hints)
 end
 
 -- lazygit
-map("n", k.lazygit_toggle_root, function() LazyVim.lazygit( { cwd = LazyVim.root.git() }) end, { desc = "Lazygit (Root Dir)" })
-map("n", k.lazygit_toggle_cwd, function() LazyVim.lazygit() end, { desc = "Lazygit (cwd)" })
-map("n", k.lazygit_blame_line, LazyVim.lazygit.blame_line, { desc = "Git Blame Line" })
-map("n", k.lazygit_browse, LazyVim.lazygit.browse, { desc = "Git Browse" })
-
-map("n", k.lazygit_current_file_history, function()
-  local git_path = vim.api.nvim_buf_get_name(0)
-  LazyVim.lazygit({args = { "-f", vim.trim(git_path) }, cwd = LazyVim.root.git()})
-end, { desc = "Lazygit Current File History" })
-
-map("n", k.lazygit_git_log_root, function()
-  LazyVim.lazygit({ args = { "log" }, cwd = LazyVim.root.git() })
-end, { desc = "Lazygit Log" })
-map("n", k.lazygit_git_log_cwd, function()
-  LazyVim.lazygit({ args = { "log" } })
-end, { desc = "Lazygit Log (cwd)" })
+if vim.fn.executable("lazygit") == 1 then
+  map("n", k.lazygit_toggle_root, function() Snacks.lazygit( { cwd = LazyVim.root.git() }) end, { desc = "Lazygit (Root Dir)" })
+  map("n", k.lazygit_toggle_cwd, function() Snacks.lazygit() end, { desc = "Lazygit (cwd)" })
+  map("n", k.lazygit_blame_line, function() Snacks.git.blame_line() end, { desc = "Git Blame Line" })
+  map("n", k.lazygit_browse, function() Snacks.gitbrowse() end, { desc = "Git Browse" })
+  map("n", k.lazygit_current_file_history, function() Snacks.lazygit.log_file() end, { desc = "Lazygit Current File History" })
+  map("n", k.lazygit_git_log_root, function() Snacks.lazygit.log({ cwd = LazyVim.root.git() }) end, { desc = "Lazygit Log" })
+  map("n", k.lazygit_git_log_cwd, function() Snacks.lazygit.log() end, { desc = "Lazygit Log (cwd)" })
+end
 
 -- quit
 map("n", k.quit_all, "<cmd>qa<cr>", { desc = "Quit All" })
@@ -159,18 +157,12 @@ map("n", k.inspect_tree, "<cmd>InspectTree<cr>", { desc = "Inspect Tree" })
 map("n", k.lazyvim_changelog, function() LazyVim.news.changelog() end, { desc = "LazyVim Changelog" })
 
 -- floating terminal
-local lazyterm = function() LazyVim.terminal(nil, { cwd = LazyVim.root() }) end
-map("n", k.terminal_toggle_root, lazyterm, { desc = "Terminal (Root Dir)" })
-map("n", k.terminal_toggle_cwd, function() LazyVim.terminal() end, { desc = "Terminal (cwd)" })
-map("n", k.terminal_toggle_root_alt_1, lazyterm, { desc = "Terminal (Root Dir)" })
-map("n", k.terminal_toggle_root_alt_2, lazyterm, { desc = "which_key_ignore" })
+map("n", k.terminal_toggle_cwd, function() Snacks.terminal() end, { desc = "Terminal (cwd)" })
+map("n", k.terminal_toggle_root, function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "Terminal (Root Dir)" })
+map("n", k.terminal_toggle_root_alt_1,      function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "Terminal (Root Dir)" })
+map("n", k.terminal_toggle_root_alt_2,      function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "which_key_ignore" })
 
 -- Terminal Mappings
-map("t", k.terminal_enter_normal_mode, "<c-\\><c-n>", { desc = "Enter Normal Mode" })
-map("t", k.window_left, "<cmd>wincmd h<cr>", { desc = "Go to Left Window" })
-map("t", k.window_lower, "<cmd>wincmd j<cr>", { desc = "Go to Lower Window" })
-map("t", k.window_upper, "<cmd>wincmd k<cr>", { desc = "Go to Upper Window" })
-map("t", k.window_right, "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
 map("t", k.terminal_hide_terminal, "<cmd>close<cr>", { desc = "Hide Terminal" })
 map("t", k.terminal_hide_terminal_alt, "<cmd>close<cr>", { desc = "which_key_ignore" })
 
@@ -179,13 +171,23 @@ map("n", k.window_prefix, "<c-w>", { desc = "Windows", remap = true })
 map("n", k.window_split_window_below, "<C-W>s", { desc = "Split Window Below", remap = true })
 map("n", k.window_split_window_right, "<C-W>v", { desc = "Split Window Right", remap = true })
 map("n", k.window_delete_window, "<C-W>c", { desc = "Delete Window", remap = true })
-LazyVim.toggle.map(k.window_toggle_maximize_window, LazyVim.toggle.maximize)
+LazyVim.ui.maximize():map("<leader>wm")
 
 -- tabs
 map("n", k.tab_last_tab, "<cmd>tablast<cr>", { desc = "Last Tab" })
 map("n", k.tab_close_other_tabs, "<cmd>tabonly<cr>", { desc = "Close Other Tabs" })
 map("n", k.tab_first_tab, "<cmd>tabfirst<cr>", { desc = "First Tab" })
 map("n", k.tab_new_tab, "<cmd>tabnew<cr>", { desc = "New Tab" })
-map("n", k.tab_new_tab, "<cmd>tabnext<cr>", { desc = "Next Tab" })
-map("n", k.tab_close_other_tabs, "<cmd>tabclose<cr>", { desc = "Close Tab" })
+map("n", k.tab_next_tab, "<cmd>tabnext<cr>", { desc = "Next Tab" })
+map("n", k.tab_close_tab, "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", k.tab_previous_tab, "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
+
+-- native snippets. only needed on < 0.11, as 0.11 creates these by default
+if vim.fn.has("nvim-0.11") == 0 then
+  map("s", "<Tab>", function()
+    return vim.snippet.active({ direction = 1 }) and "<cmd>lua vim.snippet.jump(1)<cr>" or "<Tab>"
+  end, { expr = true, desc = "Jump Next" })
+  map({ "i", "s" }, "<S-Tab>", function()
+    return vim.snippet.active({ direction = -1 }) and "<cmd>lua vim.snippet.jump(-1)<cr>" or "<S-Tab>"
+  end, { expr = true, desc = "Jump Previous" })
+end
