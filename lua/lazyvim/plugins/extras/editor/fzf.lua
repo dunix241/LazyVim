@@ -88,6 +88,18 @@ return {
         end
       end
 
+      local default_keymaps = {
+        [k.picker_find_files_no_ignore] = { actions.toggle_ignore },
+        [k.picker_find_files_with_hidden] = { actions.toggle_hidden },
+      }
+      local keymaps = {}
+
+      for key, value in pairs(default_keymaps) do
+        if key and key ~= "" then
+          keymaps[key] = value
+        end
+      end
+
       return {
         "default-title",
         fzf_colors = true,
