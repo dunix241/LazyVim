@@ -60,7 +60,7 @@ return {
     end,
     keys = {
       {
-        "<leader>un",
+        k.dismiss_all_notifications,
         function()
           Snacks.notifier.hide()
         end,

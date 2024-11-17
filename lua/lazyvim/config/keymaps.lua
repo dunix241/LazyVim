@@ -171,7 +171,7 @@ map("n", k.window_prefix, "<c-w>", { desc = "Windows", remap = true })
 map("n", k.window_split_window_below, "<C-W>s", { desc = "Split Window Below", remap = true })
 map("n", k.window_split_window_right, "<C-W>v", { desc = "Split Window Right", remap = true })
 map("n", k.window_delete_window, "<C-W>c", { desc = "Delete Window", remap = true })
-LazyVim.ui.maximize():map("<leader>wm")
+LazyVim.ui.maximize():map(k.window_toggle_maximize_window)
 
 -- tabs
 map("n", k.tab_last_tab, "<cmd>tablast<cr>", { desc = "Last Tab" })

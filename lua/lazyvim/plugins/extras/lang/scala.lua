@@ -37,7 +37,7 @@ return {
               desc = "Metals compile cascade",
             },
             {
-              "<leader>mh",
+              k.scala_metals_hover_worksheet,
               function()
                 require("metals").hover_worksheet()
               end,

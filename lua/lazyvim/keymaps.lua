@@ -243,8 +243,8 @@ M.default_keymaps = {
   --   },
   -- },
   -- ui = {
-  -- nvim_notify = {
-  nvimnotify_dismiss_all_notifications = "<leader>un",
+  -- nvim_notify/notifier = {
+  dismiss_all_notifications = "<leader>un",
   -- },
   -- bufferline = {
   bufferline_toggle_pin = "<leader>bp",
@@ -317,6 +317,9 @@ M.default_keymaps = {
   minisurround_highlight = "gsh",
   minisurround_replace = "gsr",
   minisurround_update_n_lines = "gsn",
+  -- },
+  -- neogen = {
+  neogen_generate_annotation = "<leader>cn",
   -- },
   -- yanky = {
   yanky_yank_history = "<leader>p",
@@ -586,6 +589,7 @@ M.default_keymaps = {
   -- scala = {
   scala_metals_commands = "<leader>me",
   scala_metals_compile_cascade = "<leader>mc",
+  scala_metals_hover_worksheet = "<leader>mh",
   -- },
   -- sql = {
   sql_toggle_dbui = "<leader>D",

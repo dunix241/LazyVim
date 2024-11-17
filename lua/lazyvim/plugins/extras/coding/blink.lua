@@ -1,3 +1,24 @@
+local k = require("lazyvim.keymaps").get_keymaps()
+
+local default_actions = {
+  { "preset", "enter" },
+  {
+    k.cmp_snippet_forward_ai_accept,
+    {
+      LazyVim.cmp.map({ "snippet_forward", "ai_accept" }),
+      "fallback",
+    },
+  },
+}
+
+local actions = {}
+
+for key, value in ipairs(default_actions) do
+  if key and key ~= "" then
+    actions[key] = value
+  end
+end
+
 if lazyvim_docs then
   -- set to `true` to follow the main branch
   -- you need to have a working rust toolchain to build the plugin
@@ -65,13 +86,7 @@ return {
         },
       },
 
-      keymap = {
-        preset = "enter",
-        ["<Tab>"] = {
-          LazyVim.cmp.map({ "snippet_forward", "ai_accept" }),
-          "fallback",
-        },
-      },
+      keymap = actions,
     },
     ---@param opts blink.cmp.Config | { sources: { compat: string[] } }
     config = function(_, opts)

@@ -1,9 +1,11 @@
+local k = require("lazyvim.keymaps").get_keymaps()
+
 return {
   "danymat/neogen",
   cmd = "Neogen",
   keys = {
     {
-      "<leader>cn",
+      k.neogen_generate_annotation,
       function()
         require("neogen").generate()
       end,
