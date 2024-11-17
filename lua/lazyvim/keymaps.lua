@@ -249,7 +249,6 @@ M.default_keymaps = {
   -- bufferline = {
   bufferline_toggle_pin = "<leader>bp",
   bufferline_delete_non_pinned_buffers = "<leader>bP",
-  bufferline_delete_other_buffers = "<leader>bo",
   bufferline_delete_buffers_to_the_right = "<leader>br",
   bufferline_delete_buffers_to_the_left = "<leader>bl",
   bufferline_prev_buffer = "<S-h>",
