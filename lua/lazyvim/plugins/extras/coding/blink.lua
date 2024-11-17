@@ -13,9 +13,9 @@ local default_actions = {
 
 local actions = {}
 
-for key, value in ipairs(default_actions) do
-  if key and key ~= "" then
-    actions[key] = value
+for _, value in ipairs(default_actions) do
+  if value[1] and value[1] ~= "" then
+    actions[value[1]] = value[2]
   end
 end
 
