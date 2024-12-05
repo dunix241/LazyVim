@@ -129,6 +129,7 @@ Snacks.toggle.option("relativenumber", { name = "Relative Number"}):map(k.toggle
 Snacks.toggle.diagnostics():map(k.toggle_diagnostics)
 Snacks.toggle.line_number():map(k.toggle_number)
 Snacks.toggle.option("conceallevel", {off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2}):map(k.toggle_conceallevel)
+Snacks.toggle.option("showtabline", {off = 0, on = vim.o.showtabline > 0 and vim.o.showtabline or 2, desc = "Tabline"}):map(k.toggle_show_tabline)
 Snacks.toggle.treesitter():map(k.toggle_treesitter)
 Snacks.toggle.option("background", { off = "light", on = "dark" , name = "Dark Background"}):map(k.toggle_background)
 if vim.lsp.inlay_hint then

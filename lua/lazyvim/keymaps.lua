@@ -68,6 +68,7 @@ M.default_keymaps = {
   toggle_diagnostics = "<leader>ud",
   toggle_number = "<leader>ul",
   toggle_conceallevel = "<leader>uc",
+  toggle_show_tabline = "<leader>uA",
   toggle_treesitter = "<leader>uT",
   toggle_background = "<leader>ub",
   toggle_inlay_hints = "<leader>uh",
