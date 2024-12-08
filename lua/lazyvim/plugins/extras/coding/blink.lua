@@ -42,7 +42,12 @@ return {
     dependencies = {
       "rafamadriz/friendly-snippets",
       -- add blink.compat to dependencies
-      -- { "saghen/blink.compat", opts = {} },
+      {
+        "saghen/blink.compat",
+        optional = true, -- make optional so it's only enabled if any extras need it
+        opts = {},
+        version = not vim.g.lazyvim_blink_main and "*",
+      },
     },
     event = "InsertEnter",
 
@@ -58,13 +63,14 @@ return {
       -- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
       -- adjusts spacing to ensure icons are aligned
       nerd_font_variant = "mono",
-      windows = {
-        autocomplete = {
-          -- draw = "reversed",
+      completion = {
+        menu = {
           winblend = vim.o.pumblend,
+          draw = { treesitter = true },
         },
         documentation = {
           auto_show = true,
+          auto_show_delay_ms = 200,
         },
         ghost_text = {
           enabled = vim.g.ai_cmp,
@@ -110,7 +116,8 @@ return {
   {
     "saghen/blink.cmp",
     opts = function(_, opts)
-      opts.kind_icons = LazyVim.config.icons.kinds
+      opts.appearance = opts.appearance or {}
+      opts.appearance.kind_icons = LazyVim.config.icons.kinds
     end,
   },
 
@@ -134,6 +141,14 @@ return {
           },
         },
       },
+    },
+  },
+  -- catppuccin support
+  {
+    "catppuccin",
+    optional = true,
+    opts = {
+      integrations = { blink_cmp = true },
     },
   },
 }

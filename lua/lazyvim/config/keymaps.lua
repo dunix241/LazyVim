@@ -139,12 +139,16 @@ end
 if vim.fn.executable("lazygit") == 1 then
   map("n", k.lazygit_toggle_root, function() Snacks.lazygit( { cwd = LazyVim.root.git() }) end, { desc = "Lazygit (Root Dir)" })
   map("n", k.lazygit_toggle_cwd, function() Snacks.lazygit() end, { desc = "Lazygit (cwd)" })
-  map("n", k.lazygit_blame_line, function() Snacks.git.blame_line() end, { desc = "Git Blame Line" })
-  map("n", k.lazygit_browse, function() Snacks.gitbrowse() end, { desc = "Git Browse" })
   map("n", k.lazygit_current_file_history, function() Snacks.lazygit.log_file() end, { desc = "Lazygit Current File History" })
   map("n", k.lazygit_git_log_root, function() Snacks.lazygit.log({ cwd = LazyVim.root.git() }) end, { desc = "Lazygit Log" })
   map("n", k.lazygit_git_log_cwd, function() Snacks.lazygit.log() end, { desc = "Lazygit Log (cwd)" })
 end
+
+map("n", k.lazygit_blame_line, function() Snacks.git.blame_line() end, { desc = "Git Blame Line" })
+map({ "n", "x" }, k.lazygit_browse, function() Snacks.gitbrowse() end, { desc = "Git Browse (open)" })
+map({"n", "x" }, k.lazygit_browse_copy, function()
+  Snacks.gitbrowse({ open = function(url) vim.fn.setreg("+", url) end, notify = false })
+end, { desc = "Git Browse (copy)" })
 
 -- quit
 map("n", k.quit_all, "<cmd>qa<cr>", { desc = "Quit All" })

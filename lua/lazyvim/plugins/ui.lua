@@ -94,7 +94,7 @@ return {
         options = {
           theme = "auto",
           globalstatus = vim.o.laststatus == 3,
-          disabled_filetypes = { statusline = { "dashboard", "alpha", "ministarter" } },
+          disabled_filetypes = { statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" } },
         },
         sections = {
           lualine_a = { "mode" },
@@ -226,6 +226,7 @@ return {
             "mason",
             "neo-tree",
             "notify",
+            "snacks_dashboard",
             "snacks_notif",
             "snacks_terminal",
             "snacks_win",
@@ -317,121 +318,33 @@ return {
   { "MunifTanjim/nui.nvim", lazy = true },
 
   {
-    "nvimdev/dashboard-nvim",
-    lazy = false, -- As https://github.com/nvimdev/dashboard-nvim/pull/450, dashboard-nvim shouldn't be lazy-loaded to properly handle stdin.
-    opts = function()
-      local logo = [[
-           ██╗      █████╗ ███████╗██╗   ██╗██╗   ██╗██╗███╗   ███╗          Z
-           ██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██║   ██║██║████╗ ████║      Z    
-           ██║     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║██╔████╔██║   z       
-           ██║     ██╔══██║ ███╔╝    ╚██╔╝  ╚██╗ ██╔╝██║██║╚██╔╝██║ z         
-           ███████╗██║  ██║███████╗   ██║    ╚████╔╝ ██║██║ ╚═╝ ██║           
-           ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝     ╚═══╝  ╚═╝╚═╝     ╚═╝           
-      ]]
-
-      logo = string.rep("\n", 8) .. logo .. "\n\n"
-
-      local actions = {
-        {
-          action = "lua LazyVim.pick()()",
-          desc = " Find File",
-          icon = " ",
-          key = k.dashboard_find_file,
-        },
-        {
-          action = "ene | startinsert",
-          desc = " New File",
-          icon = " ",
-          key = k.dashboard_new_file,
-        },
-        {
-          action = 'lua LazyVim.pick("oldfiles")()',
-          desc = " Recent Files",
-          icon = " ",
-          key = k.dashboard_recent_files,
-        },
-        {
-          action = 'lua LazyVim.pick("live_grep")()',
-          desc = " Find Text",
-          icon = " ",
-          key = k.dashboard_find_text,
-        },
-        {
-          action = "lua LazyVim.pick()()",
-          desc = " Config",
-          icon = " ",
-          key = k.dashboard_config,
-        },
-        {
-          action = 'lua require("persistence").load()',
-          desc = " Restore Session",
-          icon = " ",
-          key = k.dashboard_restore_session,
-        },
-        {
-          action = "LazyExtras",
-          desc = " Lazy Extras",
-          icon = " ",
-          key = k.dashboard_lazy_extras,
-        },
-        {
-          action = "Lazy",
-          desc = " Lazy",
-          icon = "󰒲 ",
-          key = k.dashboard_lazy,
-        },
-        {
-          action = function()
-            vim.api.nvim_input("<cmd>qa<cr>")
-          end,
-          desc = " Quit",
-          icon = " ",
-          key = k.dashboard_quit,
-        },
-      }
-
-      actions = vim.tbl_filter(function(action)
-        return action.key and action.key ~= ""
-      end, actions)
-
-      local opts = {
-        theme = "doom",
-        hide = {
-          -- this is taken care of by lualine
-          -- enabling this messes up the actual laststatus setting after loading a file
-          statusline = false,
-        },
-        config = {
-          header = vim.split(logo, "\n"),
+    "folke/snacks.nvim",
+    opts = {
+      dashboard = {
+        preset = {
+          header = [[
+          ██╗      █████╗ ███████╗██╗   ██╗██╗   ██╗██╗███╗   ███╗          Z
+          ██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██║   ██║██║████╗ ████║      Z    
+          ██║     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║██╔████╔██║   z       
+          ██║     ██╔══██║ ███╔╝    ╚██╔╝  ╚██╗ ██╔╝██║██║╚██╔╝██║ z         
+          ███████╗██║  ██║███████╗   ██║    ╚████╔╝ ██║██║ ╚═╝ ██║           
+          ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝     ╚═══╝  ╚═╝╚═╝     ╚═╝           
+   ]],
           -- stylua: ignore
-          center = actions,
-          footer = function()
-            local stats = require("lazy").stats()
-            local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-            return { "⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms" }
-          end,
+          ---@type snacks.dashboard.Item[]
+          keys = {
+            { icon = " ", key = k.dashboard_find_file, desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+            { icon = " ", key = k.dashboard_new_file, desc = "New File", action = ":ene | startinsert" },
+            { icon = " ", key = k.dashboard_find_text, desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+            { icon = " ", key = k.dashboard_recent_files, desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+            { icon = " ", key = k.dashboard_config, desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
+            { icon = " ", key = k.dashboard_restore_session, desc = "Restore Session", section = "session" },
+            { icon = " ", key = k.dashboard_lazy_extras, desc = "Lazy Extras", action = ":LazyExtras" },
+            { icon = "󰒲 ", key = k.dashboard_lazy, desc = "Lazy", action = ":Lazy" },
+            { icon = " ", key = k.dashboard_quit, desc = "Quit", action = ":qa" },
+          },
         },
-      }
-
-      for _, button in ipairs(opts.config.center) do
-        button.desc = button.desc .. string.rep(" ", 43 - #button.desc)
-        button.key_format = "  %s"
-      end
-
-      -- open dashboard after closing lazy
-      if vim.o.filetype == "lazy" then
-        vim.api.nvim_create_autocmd("WinClosed", {
-          pattern = tostring(vim.api.nvim_get_current_win()),
-          once = true,
-          callback = function()
-            vim.schedule(function()
-              vim.api.nvim_exec_autocmds("UIEnter", { group = "dashboard" })
-            end)
-          end,
-        })
-      end
-
-      return opts
-    end,
+      },
+    },
   },
 }

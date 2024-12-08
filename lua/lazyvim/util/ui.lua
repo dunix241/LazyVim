@@ -15,7 +15,11 @@ function M.foldexpr()
     if vim.bo[buf].filetype == "" then
       return "0"
     end
-    vim.b[buf].ts_folds = pcall(vim.treesitter.get_parser, buf)
+    if vim.bo[buf].filetype:find("dashboard") then
+      vim.b[buf].ts_folds = false
+    else
+      vim.b[buf].ts_folds = pcall(vim.treesitter.get_parser, buf)
+    end
   end
   return vim.b[buf].ts_folds and vim.treesitter.foldexpr() or "0"
 end
@@ -30,7 +34,7 @@ end
 function M.maximize()
   ---@type {k:string, v:any}[]?
   local maximized = nil
-  return Snacks.toggle({
+  local toggle = Snacks.toggle({
     name = "Maximize",
     get = function()
       return maximized ~= nil
@@ -47,16 +51,6 @@ function M.maximize()
         set("winminwidth", 10)
         set("winminheight", 4)
         vim.cmd("wincmd =")
-        -- `QuitPre` seems to be executed even if we quit a normal window, so we don't want that
-        -- `VimLeavePre` might be another consideration? Not sure about differences between the 2
-        vim.api.nvim_create_autocmd("ExitPre", {
-          once = true,
-          group = vim.api.nvim_create_augroup("lazyvim_restore_max_exit_pre", { clear = true }),
-          desc = "Restore width/height when close Neovim while maximized",
-          callback = function()
-            M.maximize.set(false)
-          end,
-        })
       else
         for _, opt in ipairs(maximized) do
           vim.o[opt.k] = opt.v
@@ -66,6 +60,19 @@ function M.maximize()
       end
     end,
   })
+
+  -- `QuitPre` seems to be executed even if we quit a normal window, so we don't want that
+  -- `VimLeavePre` might be another consideration? Not sure about differences between the 2
+  vim.api.nvim_create_autocmd("ExitPre", {
+    group = vim.api.nvim_create_augroup("lazyvim_restore_max_exit_pre", { clear = true }),
+    desc = "Restore width/height when close Neovim while maximized",
+    callback = function()
+      if toggle:get() then
+        toggle:set(false)
+      end
+    end,
+  })
+  return toggle
 end
 
 return M

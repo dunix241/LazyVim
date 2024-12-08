@@ -40,11 +40,9 @@ return {
     opts = function()
       ---@type snacks.Config
       return {
+        bigfile = { enabled = true },
         notifier = { enabled = true },
         quickfile = { enabled = true },
-        bigfile = { enabled = true },
-        words = { enabled = true },
-        toggle = { map = LazyVim.safe_keymap_set },
         statuscolumn = { enabled = false }, -- we set this in options.lua
         terminal = {
           win = {
@@ -56,16 +54,25 @@ return {
             },
           },
         },
+        toggle = { map = LazyVim.safe_keymap_set },
+        words = { enabled = true },
       }
     end,
+    -- stylua: ignore
     keys = {
-      {
-        k.dismiss_all_notifications,
-        function()
-          Snacks.notifier.hide()
-        end,
-        desc = "Dismiss All Notifications",
-      },
+      { k.snacks_toggle_scratch_buffer,  function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
+      { k.snacks_select_scratch_buffer,  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
+      { k.snacks_notification_history, function() Snacks.notifier.show_history() end, desc = "Notification History" },
+      { k.dismiss_all_notifications, function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
     },
+    config = function(_, opts)
+      local notify = vim.notify
+      require("snacks").setup(opts)
+      -- HACK: restore vim.notify after snacks setup and let noice.nvim take over
+      -- this is needed to have early notifications show up in noice history
+      if LazyVim.has("noice.nvim") then
+        vim.notify = notify
+      end
+    end,
   },
 }
