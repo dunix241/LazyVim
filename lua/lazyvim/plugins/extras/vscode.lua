@@ -28,6 +28,7 @@ Config.options.change_detection.enabled = false
 Config.options.defaults.cond = function(plugin)
   return vim.tbl_contains(enabled, plugin.name) or plugin.vscode
 end
+vim.g.snacks_animate = false
 
 local map = LazyVim.keymap_set
 local k = require("lazyvim.keymaps").get_keymaps()
@@ -36,9 +37,18 @@ local k = require("lazyvim.keymaps").get_keymaps()
 vim.api.nvim_create_autocmd("User", {
   pattern = "LazyVimKeymapsDefaults",
   callback = function()
-    map("n", k.vscode_find, "<cmd>Find<cr>")
-    map("n", k.vscode_find_in_files, [[<cmd>lua require('vscode').action('workbench.action.findInFiles')<cr>]])
-    map("n", k.vscode_go_to_symbol, [[<cmd>lua require('vscode').action('workbench.action.gotoSymbol')<cr>]])
+    -- VSCode-specific keymaps for search and navigation
+    vim.keymap.set("n", k.vscode_find, "<cmd>Find<cr>")
+    vim.keymap.set("n", k.vscode_find_in_files, [[<cmd>lua require('vscode').action('workbench.action.findInFiles')<cr>]])
+    vim.keymap.set("n", k.vscode_go_to_symbol, [[<cmd>lua require('vscode').action('workbench.action.gotoSymbol')<cr>]])
+
+    -- Keep undo/redo lists in sync with VsCode
+    vim.keymap.set("n", "u", "<Cmd>call VSCodeNotify('undo')<CR>")
+    vim.keymap.set("n", "<C-r>", "<Cmd>call VSCodeNotify('redo')<CR>")
+
+    -- Navigate VSCode tabs like lazyvim buffers
+    vim.keymap.set("n", "<S-h>", "<Cmd>call VSCodeNotify('workbench.action.previousEditor')<CR>")
+    vim.keymap.set("n", "<S-l>", "<Cmd>call VSCodeNotify('workbench.action.nextEditor')<CR>")
   end,
 })
 
@@ -47,6 +57,20 @@ function LazyVim.terminal()
 end
 
 return {
+  {
+    "snacks.nvim",
+    opts = {
+      bigfile = { enabled = false },
+      dashboard = { enabled = false },
+      indent = { enabled = false },
+      input = { enabled = false },
+      notifier = { enabled = false },
+      picker = { enabled = false },
+      quickfile = { enabled = false },
+      scroll = { enabled = false },
+      statuscolumn = { enabled = false },
+    },
+  },
   {
     "dunix241/LazyVim",
     config = function(_, opts)

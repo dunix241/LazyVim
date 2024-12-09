@@ -1,12 +1,12 @@
 local k = require("lazyvim.keymaps").get_keymaps()
 
 local pick = function()
+  local refactoring = require("refactoring")
   if LazyVim.pick.picker.name == "telescope" then
     return require("telescope").extensions.refactoring.refactors()
   elseif LazyVim.pick.picker.name == "fzf" then
     local fzf_lua = require("fzf-lua")
-    local results = require("refactoring").get_refactors()
-    local refactoring = require("refactoring")
+    local results = refactoring.get_refactors()
 
     local opts = {
       fzf_opts = {},
@@ -18,6 +18,8 @@ local pick = function()
       },
     }
     fzf_lua.fzf_exec(results, opts)
+  else
+    refactoring.select_refactor()
   end
 end
 
