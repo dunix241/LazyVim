@@ -47,10 +47,6 @@ return {
         codelens = {
           enabled = false,
         },
-        -- Enable lsp cursor word highlighting
-        document_highlight = {
-          enabled = true,
-        },
         -- add any global capabilities here
         capabilities = {
           workspace = {

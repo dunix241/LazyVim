@@ -35,7 +35,6 @@ return {
 
     -- stylua: ignore
     keys = {
-      { k.dap_prefix, "", desc = "+debug", mode = {"n", "v"} },
       { k.dap_breakpoint_condition, function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = "Breakpoint Condition" },
       { k.dap_toggle_breakpoint, function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
       { k.dap_continue, function() require("dap").continue() end, desc = "Run/Continue" },
@@ -86,7 +85,7 @@ return {
     dependencies = { "nvim-neotest/nvim-nio" },
     -- stylua: ignore
     keys = {
-      { k.toggle_dap_ui, function() require("dapui").toggle({ }) end, desc = "Dap UI" },
+      { k.dap_toggle_dap_ui, function() require("dapui").toggle({ }) end, desc = "Dap UI" },
       { k.dap_eval_dap_ui, function() require("dapui").eval() end, desc = "Eval", mode = {"n", "v"} },
     },
     opts = {},

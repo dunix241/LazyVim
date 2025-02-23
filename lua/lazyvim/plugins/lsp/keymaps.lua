@@ -1,6 +1,15 @@
 local M = {}
 local k = require("lazyvim.keymaps").get_keymaps()
 
+M.filter_keymaps = function(actions)
+  local filtered = {}
+  for _, action in ipairs(actions) do
+    if action[1] and action[1] ~= "" then
+      table.insert(filtered, action)
+    end
+  end
+end
+
 ---@type LazyKeysLspSpec[]|nil
 M._keys = nil
 
@@ -12,109 +21,34 @@ function M.get()
   if M._keys then
     return M._keys
   end
-  local actions = {
-    { k.lang_lsp_info, "<cmd>LspInfo<cr>", desc = "Lsp Info" },
-    { k.lang_go_to_definition, vim.lsp.buf.definition, desc = "Goto Definition", has = "definition" },
-    { k.lang_references, vim.lsp.buf.references, desc = "References", nowait = true },
-    { k.lang_go_to_implementation, vim.lsp.buf.implementation, desc = "Goto Implementation" },
-    { k.lang_go_to_type_definition, vim.lsp.buf.type_definition, desc = "Goto T[y]pe Definition" },
-    { k.lang_go_to_declaration, vim.lsp.buf.declaration, desc = "Goto Declaration" },
-    {
-      k.lang_hover,
-      function()
-        return vim.lsp.buf.hover()
-      end,
-      desc = "Hover",
-    },
-    {
-      k.lang_signature_help,
-      function()
-        return vim.lsp.buf.signature_help()
-      end,
-      desc = "Signature Help",
-      has = "signatureHelp",
-    },
-    {
-      k.lang_insert_signature_help,
-      function()
-        return vim.lsp.buf.signature_help()
-      end,
-      mode = "i",
-      desc = "Signature Help",
-      has = "signatureHelp",
-    },
-    { k.lang_code_action, vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" }, has = "codeAction" },
-    { k.lang_run_codelens, vim.lsp.codelens.run, desc = "Run Codelens", mode = { "n", "v" }, has = "codeLens" },
-    {
-      k.lang_refresh_codelens,
-      vim.lsp.codelens.refresh,
-      desc = "Refresh & Display Codelens",
-      mode = { "n" },
-      has = "codeLens",
-    },
-    {
-      k.lang_rename_file,
-      function()
-        Snacks.rename.rename_file()
-      end,
-      desc = "Rename File",
-      mode = { "n" },
-      has = { "workspace/didRenameFiles", "workspace/willRenameFiles" },
-    },
-    { k.lang_rename, vim.lsp.buf.rename, desc = "Rename", has = "rename" },
-    { k.lang_source_action, LazyVim.lsp.action.source, desc = "Source Action", has = "codeAction" },
-    {
-      k.lang_next_reference,
-      function()
-        Snacks.words.jump(vim.v.count1)
-      end,
-      has = "documentHighlight",
-      desc = "Next Reference",
-      cond = function()
-        return Snacks.words.is_enabled()
-      end,
-    },
-    {
-      k.lang_prev_reference,
-      function()
-        Snacks.words.jump(-vim.v.count1)
-      end,
-      has = "documentHighlight",
-      desc = "Prev Reference",
-      cond = function()
-        return Snacks.words.is_enabled()
-      end,
-    },
-    {
-      k.lang_cycle_next_reference,
-      function()
-        Snacks.words.jump(vim.v.count1, true)
-      end,
-      has = "documentHighlight",
-      desc = "Next Reference",
-      cond = function()
-        return Snacks.words.is_enabled()
-      end,
-    },
-    {
-      k.lang_cycle_prev_reference,
-      function()
-        Snacks.words.jump(-vim.v.count1, true)
-      end,
-      has = "documentHighlight",
-      desc = "Prev Reference",
-      cond = function()
-        return Snacks.words.is_enabled()
-      end,
-    },
-  }
-  M._keys = {}
+    -- stylua: ignore
+    M._keys =  {
+      { k.lang_lsp_info, function() Snacks.picker.lsp_config() end, desc = "Lsp Info" },
+      { k.lang_go_to_definition, vim.lsp.buf.definition, desc = "Goto Definition", has = "definition" },
+      { k.lang_references, vim.lsp.buf.references, desc = "References", nowait = true },
+      { k.lang_go_to_implementation, vim.lsp.buf.implementation, desc = "Goto Implementation" },
+      { k.lang_go_to_type_definition, vim.lsp.buf.type_definition, desc = "Goto T[y]pe Definition" },
+      { k.lang_go_to_declaration, vim.lsp.buf.declaration, desc = "Goto Declaration" },
+      { k.lang_hover, function() return vim.lsp.buf.hover() end, desc = "Hover" },
+      { k.lang_signature_help, function() return vim.lsp.buf.signature_help() end, desc = "Signature Help", has = "signatureHelp" },
+      { k.lang_insert_signature_help, function() return vim.lsp.buf.signature_help() end, mode = "i", desc = "Signature Help", has = "signatureHelp" },
+      { k.lang_code_action, vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" }, has = "codeAction" },
+      { k.lang_run_codelens, vim.lsp.codelens.run, desc = "Run Codelens", mode = { "n", "v" }, has = "codeLens" },
+      { k.lang_refresh_codelens, vim.lsp.codelens.refresh, desc = "Refresh & Display Codelens", mode = { "n" }, has = "codeLens" },
+      { k.lang_rename_file, function() Snacks.rename.rename_file() end, desc = "Rename File", mode ={"n"}, has = { "workspace/didRenameFiles", "workspace/willRenameFiles" } },
+      { k.lang_rename, vim.lsp.buf.rename, desc = "Rename", has = "rename" },
+      { k.lang_source_action, LazyVim.lsp.action.source, desc = "Source Action", has = "codeAction" },
+      { k.lang_next_reference, function() Snacks.words.jump(vim.v.count1) end, has = "documentHighlight",
+        desc = "Next Reference", cond = function() return Snacks.words.is_enabled() end },
+      { k.lang_prev_reference, function() Snacks.words.jump(-vim.v.count1) end, has = "documentHighlight",
+        desc = "Prev Reference", cond = function() return Snacks.words.is_enabled() end },
+      { k.lang_cycle_next_reference, function() Snacks.words.jump(vim.v.count1, true) end, has = "documentHighlight",
+        desc = "Next Reference", cond = function() return Snacks.words.is_enabled() end },
+      { k.lang_cycle_prev_reference, function() Snacks.words.jump(-vim.v.count1, true) end, has = "documentHighlight",
+        desc = "Prev Reference", cond = function() return Snacks.words.is_enabled() end },
+    }
 
-  for _, action in ipairs(actions) do
-    if action[1] and action[1] ~= "" then
-      table.insert(M._keys, action)
-    end
-  end
+  M._keys = M.filter_keymaps(M._keys)
 
   return M._keys
 end
