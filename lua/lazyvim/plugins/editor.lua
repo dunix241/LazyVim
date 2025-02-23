@@ -190,7 +190,7 @@ return {
         set = function(state)
           require("gitsigns").toggle_signs(state)
         end,
-      }):map("<leader>uG")
+      }):map(k.gitsigns_toggle_signs)
     end,
   },
 

@@ -203,6 +203,7 @@ M.default_keymaps = {
   gitsigns_diff_index = "<leader>ghd",
   gitsigns_diff_commit = "<leader>ghD",
   gitsigns_select_hunk = "ih",
+  gitsigns_toggle_signs = "<leader>uG",
   -- },
   -- trouble = {
   trouble_diagnostics_toggle = "<leader>xx",
