@@ -8,6 +8,7 @@ M.filter_keymaps = function(actions)
       table.insert(filtered, action)
     end
   end
+  return filtered
 end
 
 ---@type LazyKeysLspSpec[]|nil

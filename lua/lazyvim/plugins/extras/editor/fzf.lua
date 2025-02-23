@@ -300,13 +300,17 @@ return {
     "neovim/nvim-lspconfig",
     opts = function()
       local Keys = require("lazyvim.plugins.lsp.keymaps").get()
-      -- stylua: ignore
-      vim.list_extend(Keys, {
+      local extended_keys = {
         { k.lang_go_to_definition, "<cmd>FzfLua lsp_definitions     jump1=true ignore_current_line=true<cr>", desc = "Goto Definition", has = "definition" },
         { k.lang_references, "<cmd>FzfLua lsp_references      jump1=true ignore_current_line=true<cr>", desc = "References", nowait = true },
         { k.lang_go_to_implementation, "<cmd>FzfLua lsp_implementations jump1=true ignore_current_line=true<cr>", desc = "Goto Implementation" },
         { k.lang_go_to_type_definition, "<cmd>FzfLua lsp_typedefs        jump1=true ignore_current_line=true<cr>", desc = "Goto T[y]pe Definition" },
-      })
+      }
+
+      extended_keys = require("lazyvim.plugins.lsp.keymaps").filter_keymaps(extended_keys)
+
+      -- stylua: ignore
+      vim.list_extend(Keys, extended_keys)
     end,
   },
 }
