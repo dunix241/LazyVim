@@ -4,6 +4,9 @@
 local k = require("lazyvim.keymaps").get_keymaps()
 
 return {
+  -- disable snacks words
+  { "snacks.nvim", opts = { words = { enabled = false } } },
+
   {
     "RRethy/vim-illuminate",
     event = "LazyFile",
@@ -54,9 +57,5 @@ return {
       { k.illuminate_next, desc = "Next Reference" },
       { k.illuminate_prev, desc = "Prev Reference" },
     },
-  },
-  {
-    "neovim/nvim-lspconfig",
-    opts = { document_highlight = { enabled = false } },
   },
 }
