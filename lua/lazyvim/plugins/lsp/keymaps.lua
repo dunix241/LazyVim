@@ -1,7 +1,7 @@
 local M = {}
 local k = require("lazyvim.keymaps").get_keymaps()
 
-M.filter_keymaps = function(actions)
+function M.filter_keymaps(actions)
   local filtered = {}
   for _, action in ipairs(actions) do
     if action[1] and action[1] ~= "" then
@@ -49,7 +49,7 @@ function M.get()
         desc = "Prev Reference", cond = function() return Snacks.words.is_enabled() end },
     }
 
-  M._keys = M.filter_keymaps(M._keys)
+    M._keys = M.filter_keymaps(M._keys)
 
   return M._keys
 end

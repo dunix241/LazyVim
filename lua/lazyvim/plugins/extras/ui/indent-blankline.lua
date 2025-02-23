@@ -1,3 +1,5 @@
+local k = require("lazyvim.keymaps").get_keymaps()
+
 return {
   -- disable snacks indent when indent-blankline is enabled
   {
