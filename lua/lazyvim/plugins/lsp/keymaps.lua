@@ -33,8 +33,8 @@ function M.get()
       { k.lang_hover, function() return vim.lsp.buf.hover() end, desc = "Hover" },
       { k.lang_signature_help, function() return vim.lsp.buf.signature_help() end, desc = "Signature Help", has = "signatureHelp" },
       { k.lang_insert_signature_help, function() return vim.lsp.buf.signature_help() end, mode = "i", desc = "Signature Help", has = "signatureHelp" },
-      { k.lang_code_action, vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" }, has = "codeAction" },
-      { k.lang_run_codelens, vim.lsp.codelens.run, desc = "Run Codelens", mode = { "n", "v" }, has = "codeLens" },
+      { k.lang_code_action, vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "x" }, has = "codeAction" },
+      { k.lang_run_codelens, vim.lsp.codelens.run, desc = "Run Codelens", mode = { "n", "x" }, has = "codeLens" },
       { k.lang_refresh_codelens, vim.lsp.codelens.refresh, desc = "Refresh & Display Codelens", mode = { "n" }, has = "codeLens" },
       { k.lang_rename_file, function() Snacks.rename.rename_file() end, desc = "Rename File", mode ={"n"}, has = { "workspace/didRenameFiles", "workspace/willRenameFiles" } },
       { k.lang_rename, vim.lsp.buf.rename, desc = "Rename", has = "rename" },
@@ -65,9 +65,9 @@ function M.has(buffer, method)
     return false
   end
   method = method:find("/") and method or "textDocument/" .. method
-  local clients = LazyVim.lsp.get_clients({ bufnr = buffer })
+  local clients = vim.lsp.get_clients({ bufnr = buffer })
   for _, client in ipairs(clients) do
-    if client.supports_method(method) then
+    if client:supports_method(method) then
       return true
     end
   end
@@ -82,7 +82,7 @@ function M.resolve(buffer)
   end
   local spec = vim.tbl_extend("force", {}, M.get())
   local opts = LazyVim.opts("nvim-lspconfig")
-  local clients = LazyVim.lsp.get_clients({ bufnr = buffer })
+  local clients = vim.lsp.get_clients({ bufnr = buffer })
   for _, client in ipairs(clients) do
     local maps = opts.servers[client.name] and opts.servers[client.name].keys or {}
     vim.list_extend(spec, maps)

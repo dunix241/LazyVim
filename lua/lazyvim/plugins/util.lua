@@ -25,6 +25,8 @@ return {
             nav_j = { k.window_lower, term_nav("j"), desc = "Go to Lower Window", expr = true, mode = "t" },
             nav_k = { k.window_upper, term_nav("k"), desc = "Go to Upper Window", expr = true, mode = "t" },
             nav_l = { k.window_right, term_nav("l"), desc = "Go to Right Window", expr = true, mode = "t" },
+            hide_slash = { k.terminal_hide_terminal, "hide", desc = "Hide Terminal", mode = { "t", "n" } },
+            hide_underscore = { k.terminal_hide_terminal_alt, "hide", desc = "which_key_ignore", mode = { "t", "n" } },
           },
         },
       },

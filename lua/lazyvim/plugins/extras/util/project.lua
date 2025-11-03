@@ -128,7 +128,7 @@ return {
     "goolord/alpha-nvim",
     optional = true,
     opts = function(_, dashboard)
-      local button = dashboard.button("p", " " .. " Projects", pick)
+      local button = dashboard.button("P", " " .. " Projects (util.project)", pick)
       button.opts.hl = "AlphaButtons"
       button.opts.hl_shortcut = "AlphaShortcut"
       table.insert(dashboard.section.buttons.val, 4, button)
@@ -136,12 +136,12 @@ return {
   },
 
   {
-    "echasnovski/mini.starter",
+    "nvim-mini/mini.starter",
     optional = true,
     opts = function(_, opts)
       local items = {
         {
-          name = "Projects",
+          name = "Projects (util.project)",
           action = pick,
           section = string.rep(" ", 22) .. "Telescope",
         },
@@ -159,7 +159,7 @@ return {
       end
       local projects = {
         action = pick,
-        desc = " Projects",
+        desc = " Projects (util.project)",
         icon = " ",
         key = k.dashboard_projects,
       }
@@ -177,9 +177,9 @@ return {
     opts = function(_, opts)
       table.insert(opts.dashboard.preset.keys, 3, {
         action = pick,
-        desc = "Projects",
+        desc = "Projects (util.project)",
         icon = " ",
-        key = "p",
+        key = "P",
       })
     end,
   },

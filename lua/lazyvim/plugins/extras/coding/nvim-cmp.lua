@@ -27,32 +27,36 @@ return {
     -- }
     -- ```
     opts = function()
+      -- Register nvim-cmp lsp capabilities
+      vim.lsp.config("*", { capabilities = require("cmp_nvim_lsp").default_capabilities() })
+
       vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
       local cmp = require("cmp")
       local defaults = require("cmp.config.default")()
       local auto_select = true
       local mappings = {}
-      local actions = {
-        { k.cmp_scroll_docs_backward, cmp.mapping.scroll_docs(-4) },
-        { k.cmp_scroll_docs_forward, cmp.mapping.scroll_docs(4) },
-        { k.cmp_select_next_item, cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }) },
-        { k.cmp_select_prev_item, cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }) },
-        { k.cmp_complete, cmp.mapping.complete() },
-        { k.cmp_confirm_auto_select, LazyVim.cmp.confirm({ select = auto_select }) },
-        { k.cmp_confirm_select, LazyVim.cmp.confirm({ select = true }) },
-        { k.cmp_confirm_replace, LazyVim.cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace }) }, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-        { k.cmp_abort, function(fallback)
-          cmp.abort()
-          fallback()
-        end },
-        { k.cmp_snippet_forward_ai_accept, function(fallback)
-          return LazyVim.cmp.map({ "snippet_forward", "ai_accept" }, fallback)()
-        end },
-      }
 
-      for _, action in ipairs(actions) do
-        if action[1] and action[1] ~= "" then
-          mappings[action[1]] = action[2]
+      local actions = {
+          [k.cmp_scroll_docs_backward] = cmp.mapping.scroll_docs(-4),
+          [k.cmp_scroll_docs_forward] = cmp.mapping.scroll_docs(4),
+          [k.cmp_select_next_item] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+          [k.cmp_select_prev_item] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+          [k.cmp_complete] = cmp.mapping.complete(),
+          [k.cmp_confirm_auto_select] = LazyVim.cmp.confirm({ select = auto_select }),
+          [k.cmp_confirm_select] = LazyVim.cmp.confirm({ select = true }),
+          [k.cmp_confirm_replace] = LazyVim.cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+          [k.cmp_abort] = function(fallback)
+            cmp.abort()
+            fallback()
+          end,
+          [k.cmp_snippet_forward_ai_accept] = function(fallback)
+            return LazyVim.cmp.map({ "snippet_forward", "ai_nes", "ai_accept" }, fallback)()
+          end,
+        }
+
+      for key, val in ipairs(actions) do
+        if key and val ~= "" then
+          mappings[key] = val
         end
       end
 

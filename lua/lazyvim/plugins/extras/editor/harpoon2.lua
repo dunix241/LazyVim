@@ -30,7 +30,7 @@ return {
       },
     }
 
-    for i = 1, 5 do
+    for i = 1, 9 do
       table.insert(keys, {
         k.harpoon_to_file_prefix .. i,
         function()

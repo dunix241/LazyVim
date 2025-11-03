@@ -82,8 +82,8 @@ map({ "i", "x", "n", "s" }, k.save_file, "<cmd>w<cr><esc>", { desc = "Save File"
 map("n", k.keywordprg, "<cmd>norm! K<cr>", { desc = "Keywordprg" })
 
 -- better indenting
-map("v", "<", "<gv")
-map("v", ">", ">gv")
+map("x", "<", "<gv")
+map("x", ">", ">gv")
 
 -- commenting
 map("n", k.comment_add_below, "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Below" })
@@ -115,16 +115,18 @@ map("n", k.previous_quickfix, vim.cmd.cprev, { desc = "Previous Quickfix" })
 map("n", k.next_quickfix, vim.cmd.cnext, { desc = "Next Quickfix" })
 
 -- formatting
-map({ "n", "v" }, k.format, function()
+map({ "n", "x" }, k.format, function()
   LazyVim.format({ force = true })
 end, { desc = "Format" })
 
 -- diagnostic
 local diagnostic_goto = function(next, severity)
-  local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
-  severity = severity and vim.diagnostic.severity[severity] or nil
   return function()
-    go({ severity = severity })
+    vim.diagnostic.jump({
+      count = (next and 1 or -1) * vim.v.count1,
+      severity = severity and vim.diagnostic.severity[severity] or nil,
+      float = true,
+    })
   end
 end
 map("n", k.diagnostic_line_diagnostics, vim.diagnostic.open_float, { desc = "Line Diagnostics" })
@@ -164,12 +166,12 @@ end
 if vim.fn.executable("lazygit") == 1 then
   map("n", k.lazygit_toggle_root, function() Snacks.lazygit( { cwd = LazyVim.root.git() }) end, { desc = "Lazygit (Root Dir)" })
   map("n", k.lazygit_toggle_cwd, function() Snacks.lazygit() end, { desc = "Lazygit (cwd)" })
-  map("n", k.lazygit_current_file_history, function() Snacks.picker.git_log_file() end, { desc = "Git Current File History" })
-  map("n", k.lazygit_git_log_root, function() Snacks.picker.git_log({ cwd = LazyVim.root.git() }) end, { desc = "Git Log" })
-  map("n", k.lazygit_git_log_cwd, function() Snacks.picker.git_log() end, { desc = "Git Log (cwd)" })
 end
 
+map("n", k.lazygit_git_log_cwd, function() Snacks.picker.git_log() end, { desc = "Git Log (cwd)" })
 map("n", k.lazygit_blame_line, function() Snacks.picker.git_log_line() end, { desc = "Git Blame Line" })
+map("n", k.lazygit_current_file_history, function() Snacks.picker.git_log_file() end, { desc = "Git Current File History" })
+map("n", k.lazygit_git_log_root, function() Snacks.picker.git_log({ cwd = LazyVim.root.git() }) end, { desc = "Git Log" })
 map({ "n", "x" }, k.lazygit_browse, function() Snacks.gitbrowse() end, { desc = "Git Browse (open)" })
 map({"n", "x" }, k.lazygit_browse_copy, function()
   Snacks.gitbrowse({ open = function(url) vim.fn.setreg("+", url) end, notify = false })
@@ -188,12 +190,8 @@ map("n", k.lazyvim_changelog, function() LazyVim.news.changelog() end, { desc = 
 -- floating terminal
 map("n", k.terminal_toggle_cwd, function() Snacks.terminal() end, { desc = "Terminal (cwd)" })
 map("n", k.terminal_toggle_root, function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "Terminal (Root Dir)" })
-map("n", k.terminal_toggle_root_alt_1,      function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "Terminal (Root Dir)" })
-map("n", k.terminal_toggle_root_alt_2,      function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "which_key_ignore" })
-
--- Terminal Mappings
-map("t", k.terminal_hide_terminal, "<cmd>close<cr>", { desc = "Hide Terminal" })
-map("t", k.terminal_hide_terminal_alt, "<cmd>close<cr>", { desc = "which_key_ignore" })
+map({"n","t"}, k.terminal_hide_terminal,function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "Terminal (Root Dir)" })
+map({"n","t"}, k.terminal_hide_terminal_alt,function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "which_key_ignore" })
 
 -- windows
 map("n", k.window_split_window_below, "<C-W>s", { desc = "Split Window Below", remap = true })
@@ -210,13 +208,3 @@ map("n", k.tab_new_tab, "<cmd>tabnew<cr>", { desc = "New Tab" })
 map("n", k.tab_next_tab, "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", k.tab_close_tab, "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", k.tab_previous_tab, "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
-
--- native snippets. only needed on < 0.11, as 0.11 creates these by default
-if vim.fn.has("nvim-0.11") == 0 then
-  map("s", "<Tab>", function()
-    return vim.snippet.active({ direction = 1 }) and "<cmd>lua vim.snippet.jump(1)<cr>" or "<Tab>"
-  end, { expr = true, desc = "Jump Next" })
-  map({ "i", "s" }, "<S-Tab>", function()
-    return vim.snippet.active({ direction = -1 }) and "<cmd>lua vim.snippet.jump(-1)<cr>" or "<S-Tab>"
-  end, { expr = true, desc = "Jump Previous" })
-end

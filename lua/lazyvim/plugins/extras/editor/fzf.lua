@@ -131,9 +131,9 @@ return {
             winopts = {
               layout = "vertical",
               -- height is number of items minus 15 lines for the preview, with a max of 80% screen height
-              height = math.floor(math.min(vim.o.lines * 0.8 - 16, #items + 2) + 0.5) + 16,
+              height = math.floor(math.min(vim.o.lines * 0.8 - 16, #items + 4) + 0.5) + 16,
               width = 0.5,
-              preview = not vim.tbl_isempty(LazyVim.lsp.get_clients({ bufnr = 0, name = "vtsls" })) and {
+              preview = not vim.tbl_isempty(vim.lsp.get_clients({ bufnr = 0, name = "vtsls" })) and {
                 layout = "vertical",
                 vertical = "down:15,border-top",
                 hidden = "hidden",
@@ -146,7 +146,7 @@ return {
             winopts = {
               width = 0.5,
               -- height is number of items, with a max of 80% screen height
-              height = math.floor(math.min(vim.o.lines * 0.8, #items + 2) + 0.5),
+              height = math.floor(math.min(vim.o.lines * 0.8, #items + 4) + 0.5),
             },
           })
         end,
@@ -223,6 +223,7 @@ return {
       { k.picker_find_files_root, LazyVim.pick("files"), desc = "Find Files (Root Dir)" },
       -- find
       { k.picker_find_buffers, "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
+      { k.picker_find_buffers_all, "<cmd>FzfLua buffers<cr>", desc = "Buffers (all)" },
       { k.picker_find_config_file, LazyVim.pick.config_files(), desc = "Find Config File" },
       { k.picker_find_files_root_alt, LazyVim.pick("files"), desc = "Find Files (Root Dir)" },
       { k.picker_find_files_cwd, LazyVim.pick("files", { root = false }), desc = "Find Files (cwd)" },
@@ -231,19 +232,19 @@ return {
       { k.picker_find_recent_files_cwd, LazyVim.pick("oldfiles", { cwd = vim.uv.cwd() }), desc = "Recent (cwd)" },
       -- git
       { k.picker_git_commits, "<cmd>FzfLua git_commits<CR>", desc = "Commits" },
+      { k.picker_git_diff, "<cmd>FzfLua git_diff<cr>", desc = "Git Diff (hunks)" },
+      { k.picker_git_commits_alt, "<cmd>FzfLua git_commits<CR>", desc = "Commits" },
       { k.picker_git_status, "<cmd>FzfLua git_status<CR>", desc = "Status" },
+      { k.picker_git_stash, "<cmd>FzfLua git_stash<cr>", desc = "Git Stash" },
       -- search
       { k.picker_search_registers, "<cmd>FzfLua registers<cr>", desc = "Registers" },
+      { k.picker_search_history, "<cmd>FzfLua search_history<cr>", desc = "Search History" },
       { k.picker_search_autocommands, "<cmd>FzfLua autocmds<cr>", desc = "Auto Commands" },
-      { k.picker_search_buffer, "<cmd>FzfLua grep_curbuf<cr>", desc = "Buffer" },
+      { k.picker_search_buffer, "<cmd>FzfLua lines<cr>", desc = "Buffer Lines" },
       { k.picker_search_command_history, "<cmd>FzfLua command_history<cr>", desc = "Command History" },
       { k.picker_search_commands, "<cmd>FzfLua commands<cr>", desc = "Commands" },
-      { k.picker_search_document_diagnostics, "<cmd>FzfLua diagnostics_document<cr>", desc = "Document Diagnostics" },
-      {
-        k.picker_search_workspace_diagnostics,
-        "<cmd>FzfLua diagnostics_workspace<cr>",
-        desc = "Workspace Diagnostics",
-      },
+      { k.picker_search_document_diagnostics, "<cmd>FzfLua diagnostics_workspace<cr>", desc = "Diagnostics" },
+      { k.picker_search_workspace_diagnostics, "<cmd>FzfLua diagnostics_document<cr>", desc = "Buffer Diagnostics" },
       { k.picker_search_grep_root, LazyVim.pick("live_grep"), desc = "Grep (Root Dir)" },
       { k.picker_search_grep_cwd, LazyVim.pick("live_grep", { root = false }), desc = "Grep (cwd)" },
       { k.picker_search_help_pages, "<cmd>FzfLua help_tags<cr>", desc = "Help Pages" },
@@ -257,13 +258,8 @@ return {
       { k.picker_search_quickfix, "<cmd>FzfLua quickfix<cr>", desc = "Quickfix List" },
       { k.picker_search_word_root, LazyVim.pick("grep_cword"), desc = "Word (Root Dir)" },
       { k.picker_search_word_cwd, LazyVim.pick("grep_cword", { root = false }), desc = "Word (cwd)" },
-      { k.picker_search_selection_root, LazyVim.pick("grep_visual"), mode = "v", desc = "Selection (Root Dir)" },
-      {
-        k.picker_search_selection_cwd,
-        LazyVim.pick("grep_visual", { root = false }),
-        mode = "v",
-        desc = "Selection (cwd)",
-      },
+      { k.picker_search_selection_root, LazyVim.pick("grep_visual"), mode = "x", desc = "Selection (Root Dir)" },
+      { k.picker_search_selection_cwd, LazyVim.pick("grep_visual", { root = false }), mode = "x", desc = "Selection (cwd)" },
       { k.picker_colorscheme_preview, LazyVim.pick("colorschemes"), desc = "Colorscheme with Preview" },
       {
         k.picker_go_to_symbol,

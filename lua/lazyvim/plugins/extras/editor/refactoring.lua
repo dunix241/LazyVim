@@ -32,34 +32,39 @@ return {
       "nvim-treesitter/nvim-treesitter",
     },
     keys = {
-      { k.refactoring_prefix, "", desc = "+refactor", mode = { "n", "v" } },
+      { k.refactoring_prefix, "", desc = "+refactor", mode = { "n", "x" } },
       {
         k.refactoring_refactor,
         pick,
-        mode = "v",
+        mode = { "n", "x" },
         desc = "Refactor",
       },
       {
         k.refactoring_inline_variable,
         function()
-          require("refactoring").refactor("Inline Variable")
+          return require("refactoring").refactor("Inline Variable")
         end,
-        mode = { "n", "v" },
+        mode = { "n", "x" },
         desc = "Inline Variable",
+        expr = true,
       },
       {
         k.refactoring_extract_block,
         function()
-          require("refactoring").refactor("Extract Block")
+          return require("refactoring").refactor("Extract Block")
         end,
+        mode = { "n", "x" },
         desc = "Extract Block",
+        expr = true,
       },
       {
         k.refactoring_extract_block_to_file,
         function()
-          require("refactoring").refactor("Extract Block To File")
+          return require("refactoring").refactor("Extract Block To File")
         end,
+        mode = { "n", "x" },
         desc = "Extract Block To File",
+        expr = true,
       },
       {
         k.refactoring_debug_print,
@@ -73,6 +78,7 @@ return {
         function()
           require("refactoring").debug.print_var({ normal = true })
         end,
+        mode = { "n", "x" },
         desc = "Debug Print Variable",
       },
       {
@@ -85,33 +91,36 @@ return {
       {
         k.refactoring_extract_function,
         function()
-          require("refactoring").refactor("Extract Function")
+          return require("refactoring").refactor("Extract Function")
         end,
-        mode = "v",
+        mode = { "n", "x" },
         desc = "Extract Function",
+        expr = true,
       },
       {
         k.refactoring_extract_function_to_file,
         function()
-          require("refactoring").refactor("Extract Function To File")
+          return require("refactoring").refactor("Extract Function To File")
         end,
-        mode = "v",
+        mode = { "n", "x" },
         desc = "Extract Function To File",
+        expr = true,
       },
       {
         k.refactoring_extract_variable,
         function()
-          require("refactoring").refactor("Extract Variable")
+          return require("refactoring").refactor("Extract Variable")
         end,
-        mode = "v",
+        mode = { "n", "x" },
         desc = "Extract Variable",
+        expr = true,
       },
       {
         k.refactoring_debug_print_variable,
         function()
           require("refactoring").debug.print_var()
         end,
-        mode = "v",
+        mode = { "n", "x" },
         desc = "Debug Print Variable",
       },
     },

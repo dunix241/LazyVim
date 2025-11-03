@@ -21,13 +21,14 @@ return {
   },
   {
     "mfussenegger/nvim-ansible",
-    ft = {},
+    ft = { "yaml" },
     keys = {
       {
         k.ansible_run_playbook_role,
         function()
           require("ansible").run()
         end,
+        ft = "yaml.ansible",
         desc = "Ansible Run Playbook/Role",
         silent = true,
       },

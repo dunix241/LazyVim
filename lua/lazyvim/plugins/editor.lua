@@ -6,7 +6,7 @@ return {
   {
     "MagicDuck/grug-far.nvim",
     opts = { headerMaxWidth = 80 },
-    cmd = "GrugFar",
+    cmd = { "GrugFar", "GrugFarWithin" },
     keys = {
       {
         k.grugfar_open,
@@ -20,7 +20,7 @@ return {
             },
           })
         end,
-        mode = { "n", "v" },
+        mode = { "n", "x" },
         desc = "Search and Replace",
       },
     },
@@ -37,11 +37,21 @@ return {
     opts = {},
     -- stylua: ignore
     keys = {
-      {k.flash_jump, mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-      {k.flash_treesitter, mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      {k.flash_remote, mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-      {k.flash_treesitter_search, mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      {k.flash_toggle, mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+      { k.flash_jump, mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { k.flash_treesitter, mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { k.flash_remote, mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+      { k.flash_treesitter_search, mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { k.flash_toggle, mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+      -- Simulate nvim-treesitter incremental selection
+      { "<c-space>", mode = { "n", "o", "x" },
+        function()
+          require("flash").treesitter({
+            actions = {
+              ["<c-space>"] = "next",
+              ["<BS>"] = "prev"
+            }
+          }) 
+        end, desc = "Treesitter Incremental Selection" },
     },
   },
 
@@ -56,7 +66,7 @@ return {
       defaults = {},
       spec = {
         {
-          mode = { "n", "v" },
+          mode = { "n", "x" },
           { k.tabs_prefix, group = "tabs" },
           { k.code_prefix, group = "code" },
           { k.debug_prefix, group = "debug" },
@@ -66,8 +76,8 @@ return {
           { k.hunks_prefix, group = "hunks" },
           { k.quit_session_prefix, group = "quit/session" },
           { k.search_prefix, group = "search" },
-          { k.ui_prefix, group = "ui", icon = { icon = "󰙵 ", color = "cyan" } },
-          { k.diagnostics_quickfix_prefix, group = "diagnostics/quickfix", icon = { icon = "󱖫 ", color = "green" } },
+          { k.ui_prefix, group = "ui" },
+          { k.diagnostics_quickfix_prefix, group = "diagnostics/quickfix" },
           { "[", group = "prev" },
           { "]", group = "next" },
           { "g", group = "goto" },
@@ -145,7 +155,7 @@ return {
         local gs = package.loaded.gitsigns
 
         local function map(mode, l, r, desc)
-          LazyVim.keymap_set(mode, l, r, { buffer = buffer, desc = desc })
+          LazyVim.keymap_set(mode, l, r, { buffer = buffer, desc = desc, silent = true })
         end
 
         -- stylua: ignore start
@@ -165,8 +175,8 @@ return {
         end, "Prev Hunk")
         map("n", k.gitsigns_last_hunk, function() gs.nav_hunk("last") end, "Last Hunk")
         map("n", k.gitsigns_first_hunk, function() gs.nav_hunk("first") end, "First Hunk")
-        map({ "n", "v" }, k.gitsigns_stage_hunk, ":Gitsigns stage_hunk<CR>", "Stage Hunk")
-        map({ "n", "v" }, k.gitsigns_reset_hunk, ":Gitsigns reset_hunk<CR>", "Reset Hunk")
+        map({ "n", "x" }, k.gitsigns_stage_hunk, ":Gitsigns stage_hunk<CR>", "Stage Hunk")
+        map({ "n", "x" }, k.gitsigns_reset_hunk, ":Gitsigns reset_hunk<CR>", "Reset Hunk")
         map("n", k.gitsigns_stage_buffer, gs.stage_buffer, "Stage Buffer")
         map("n", k.gitsigns_undo_stage_hunk, gs.undo_stage_hunk, "Undo Stage Hunk")
         map("n", k.gitsigns_reset_buffer, gs.reset_buffer, "Reset Buffer")

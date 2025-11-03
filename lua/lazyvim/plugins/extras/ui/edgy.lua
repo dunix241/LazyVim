@@ -1,7 +1,7 @@
 local k = require("lazyvim.keymaps").get_keymaps()
 
 return {
-  -- edgy
+  -- Create and display predefined window layouts.
   {
     "folke/edgy.nvim",
     event = "VeryLazy",

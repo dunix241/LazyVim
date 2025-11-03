@@ -20,12 +20,12 @@ return {
           -- of files supported by R.nvim. This is an
           -- opportunity to create mappings local to buffers.
           map("n", k.r_send, "<Plug>RDSendLine", { buffer = true })
-          map("v", k.r_send, "<Plug>RSendSelection", { buffer = true })
+          map("x", k.r_send, "<Plug>RSendSelection", { buffer = true })
 
           local wk = require("which-key")
           wk.add({
             buffer = true,
-            mode = { "n", "v" },
+            mode = { "n", "x" },
             { k.r_send_all, group = "all" },
             { k.r_send_between_marks, group = "between marks" },
             { k.r_send_chunks, group = "chunks" },
@@ -68,11 +68,7 @@ return {
     opts = {
       servers = {
         r_language_server = {
-          root_dir = function(fname)
-            return require("lspconfig.util").root_pattern("DESCRIPTION", "NAMESPACE", ".Rbuildignore")(fname)
-              or require("lspconfig.util").find_git_ancestor(fname)
-              or vim.loop.os_homedir()
-          end,
+          root_markers = { "DESCRIPTION", "NAMESPACE", ".Rbuildignore" },
         },
       },
     },

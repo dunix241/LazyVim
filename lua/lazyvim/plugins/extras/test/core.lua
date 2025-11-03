@@ -108,6 +108,7 @@ return {
     -- stylua: ignore
     keys = {
       {k.test_prefix, "", desc = "+test"},
+      { k.test_attach, function() require("neotest").run.attach() end, desc = "Attach to Test (Neotest)" },
       { k.test_run_file, function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Run File (Neotest)" },
       { k.test_run_all_test_files, function() require("neotest").run.run(vim.uv.cwd()) end, desc = "Run All Test Files (Neotest)" },
       { k.test_run_nearest, function() require("neotest").run.run() end, desc = "Run Nearest (Neotest)" },

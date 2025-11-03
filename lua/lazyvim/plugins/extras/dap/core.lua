@@ -86,7 +86,7 @@ return {
     -- stylua: ignore
     keys = {
       { k.dap_toggle_dap_ui, function() require("dapui").toggle({ }) end, desc = "Dap UI" },
-      { k.dap_eval_dap_ui, function() require("dapui").eval() end, desc = "Eval", mode = {"n", "v"} },
+      { k.dap_eval_dap_ui, function() require("dapui").eval() end, desc = "Eval", mode = {"n", "x"} },
     },
     opts = {},
     config = function(_, opts)

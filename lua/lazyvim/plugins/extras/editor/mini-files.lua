@@ -2,7 +2,7 @@ local map = LazyVim.keymap_set
 local k = require("lazyvim.keymaps").get_keymaps()
 
 return {
-  "echasnovski/mini.files",
+  "nvim-mini/mini.files",
   opts = {
     windows = {
       preview = true,

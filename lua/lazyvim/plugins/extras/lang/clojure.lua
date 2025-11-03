@@ -24,13 +24,13 @@ return {
     },
     opts = function(_, opts)
       if type(opts.sources) == "table" then
-        vim.list_extend(opts.sources, { name = "clojure" })
+        vim.list_extend(opts.sources, { name = "conjure" })
       end
     end,
   },
 
   -- Add s-exp mappings
-  { "PaterJason/nvim-treesitter-sexp", opts = {}, event = "LazyFile" },
+  { "julienvincent/nvim-paredit", opts = {}, event = "LazyFile" },
 
   -- Colorize the output of the log buffer
   {
@@ -79,13 +79,13 @@ return {
           end
 
           map(
-            { "n", "v" },
+            { "n", "x" },
             k.clojure_jump_prev_evaluation_output,
             "<CMD>call search('^; -\\+$', 'bw')<CR>",
             { silent = true, buffer = true, desc = "Jumps to the beginning of previous evaluation output." }
           )
           map(
-            { "n", "v" },
+            { "n", "x" },
             k.clojure_jump_next_evaluation_output,
             "<CMD>call search('^; -\\+$', 'w')<CR>",
             { silent = true, buffer = true, desc = "Jumps to the beginning of next evaluation output." }

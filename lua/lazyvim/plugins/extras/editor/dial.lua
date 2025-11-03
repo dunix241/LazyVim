@@ -18,10 +18,10 @@ return {
   desc = "Increment and decrement numbers, dates, and more",
   -- stylua: ignore
   keys = {
-    { k.increase, function() return M.dial(true) end, expr = true, desc = "Increment", mode = {"n", "v"} },
+    { k.dial_increment, function() return M.dial(true) end, expr = true, desc = "Increment", mode = {"n", "v"} },
     { k.dial_decrement, function() return M.dial(false) end, expr = true, desc = "Decrement", mode = {"n", "v"} },
-    { k.dial_increment_g, function() return M.dial(true, true) end, expr = true, desc = "Increment", mode = {"n", "v"} },
-    { k.dial_decrement_g, function() return M.dial(false, true) end, expr = true, desc = "Decrement", mode = {"n", "v"} },
+    { k.dial_increment_g, function() return M.dial(true, true) end, expr = true, desc = "Increment", mode = {"n", "x"} },
+    { k.dial_decrement_g, function() return M.dial(false, true) end, expr = true, desc = "Decrement", mode = {"n", "x"} },
   },
   opts = function()
     local augend = require("dial.augend")
