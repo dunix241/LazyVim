@@ -221,7 +221,7 @@ function M.safe_keymap_set(mode, lhs, rhs, opts)
       ---@diagnostic disable-next-line: no-unknown
       opts.remap = nil
     end
-    M.keymap_set(modes, lhs, rhs, opts)
+    M.keymap_set(modes, lhs, rhs, opts, Snacks.keymap.set)
   end
 end
 
@@ -229,11 +229,15 @@ end
 -- not create a keymap if lhs or rhs is empty.
 -- This is useful in case `lhs` is dynamic
 -- and users can set it to empty to disable the keymap.
-function M.keymap_set(mode, lhs, rhs, opts)
+function M.keymap_set(mode, lhs, rhs, opts, set_fn)
   if not lhs or lhs == "" or not rhs or rhs == "" then
     return
   end
-  vim.keymap.set(mode, lhs, rhs, opts)
+  if set_fn then
+    set_fn(mode, lhs, rhs, opts)
+  else
+    vim.keymap.set(mode, lhs, rhs, opts)
+  end
 end
 
 ---@generic T

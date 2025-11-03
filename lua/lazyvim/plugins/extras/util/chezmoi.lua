@@ -7,10 +7,15 @@ local pick_chezmoi = function()
     local fzf_lua = require("fzf-lua")
     local actions = {
       ["enter"] = function(selected)
-        fzf_lua.actions.vimcmd_entry("ChezmoiEdit", selected, { cwd = os.getenv("HOME") })
+        fzf_lua.actions.vimcmd_entry("ChezmoiEdit", selected, { cwd = vim.env.HOME })
       end,
     }
-    fzf_lua.files({ cmd = "chezmoi managed --include=files,symlinks", actions = actions, hidden = false })
+    fzf_lua.files({
+      cmd = "chezmoi managed --include=files,symlinks",
+      actions = actions,
+      cwd = vim.env.HOME,
+      hidden = false,
+    })
   elseif LazyVim.pick.picker.name == "snacks" then
     local results = require("chezmoi.commands").list({
       args = {
@@ -52,7 +57,7 @@ return {
     "alker0/chezmoi.vim",
     init = function()
       vim.g["chezmoi#use_tmp_buffer"] = 1
-      vim.g["chezmoi#source_dir_path"] = os.getenv("HOME") .. "/.local/share/chezmoi"
+      vim.g["chezmoi#source_dir_path"] = vim.env.HOME .. "/.local/share/chezmoi"
     end,
   },
   {
@@ -82,7 +87,7 @@ return {
     init = function()
       -- run chezmoi edit on file enter
       vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-        pattern = { os.getenv("HOME") .. "/.local/share/chezmoi/*" },
+        pattern = { vim.env.HOME .. "/.local/share/chezmoi/*" },
         callback = function()
           vim.schedule(require("chezmoi.commands.__edit").watch)
         end,

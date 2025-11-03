@@ -208,3 +208,6 @@ map("n", k.tab_new_tab, "<cmd>tabnew<cr>", { desc = "New Tab" })
 map("n", k.tab_next_tab, "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", k.tab_close_tab, "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", k.tab_previous_tab, "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
+
+-- lua
+map({"n", "x"}, k.snacks_debug_run, function() Snacks.debug.run() end, { desc = "Run Lua", ft = "lua" })

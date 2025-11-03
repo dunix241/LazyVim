@@ -262,6 +262,7 @@ M.default_keymaps = {
   profiler_scratch_buffer = "<leader>dps",
   notification_history = "<leader>n",
   dismiss_all_notifications = "<leader>un",
+  snacks_debug_run = "<localleader>r",
   -- },
   -- bufferline = {
   bufferline_toggle_pin = "<leader>bp",
