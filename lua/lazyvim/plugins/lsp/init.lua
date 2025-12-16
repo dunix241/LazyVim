@@ -76,7 +76,7 @@ return {
               },
             },
             -- stylua: ignore
-            keys = vim.tbl_filter(function(key) return key[1] ~= nil end, {
+            keys = vim.tbl_filter(function(key) return key[1] ~= nil and key[1] ~= "" end, {
               { k.lang_lsp_info, function() Snacks.picker.lsp_config() end, desc = "Lsp Info" },
               { k.lang_go_to_definition, vim.lsp.buf.definition, desc = "Goto Definition", has = "definition" },
               { k.lang_references, vim.lsp.buf.references, desc = "References", nowait = true },

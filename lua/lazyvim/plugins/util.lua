@@ -10,23 +10,6 @@ local function term_nav(dir)
   end
 end
 
-local win_keys_org = {
-  nav_h = { k.window_left, term_nav("h"), desc = "Go to Left Window", expr = true, mode = "t" },
-  nav_j = { k.window_lower, term_nav("j"), desc = "Go to Lower Window", expr = true, mode = "t" },
-  nav_k = { k.window_upper, term_nav("k"), desc = "Go to Upper Window", expr = true, mode = "t" },
-  nav_l = { k.window_right, term_nav("l"), desc = "Go to Right Window", expr = true, mode = "t" },
-  hide_slash = { k.terminal_hide_terminal, "hide", desc = "Hide Terminal", mode = { "t", "n" } },
-  hide_underscore = { k.terminal_hide_terminal_alt, "hide", desc = "which_key_ignore", mode = { "t", "n" } },
-}
-
-local win_keys_modified = {}
-
-for key, mapping in pairs(win_keys_org) do
-  if mapping[1] and mapping[1] ~= "" then
-    win_keys_modified[key] = mapping
-  end
-end
-
 return {
 
   -- Snacks utils
@@ -37,7 +20,12 @@ return {
       quickfile = { enabled = true },
       terminal = {
         win = {
-          keys = win_keys_modified,
+          keys = vim.tbl_filter(function(key) return key[1] ~= nil and key[1] ~= "" end, {
+            nav_h = { k.window_left, term_nav("h"), desc = "Go to Left Window", expr = true, mode = "t" },
+            nav_j = { k.window_lower, term_nav("j"), desc = "Go to Lower Window", expr = true, mode = "t" },
+            nav_k = { k.window_upper, term_nav("k"), desc = "Go to Upper Window", expr = true, mode = "t" },
+            nav_l = { k.window_right, term_nav("l"), desc = "Go to Right Window", expr = true, mode = "t" },
+          }),
         },
       },
     },
@@ -57,12 +45,12 @@ return {
     event = "BufReadPre",
     opts = {},
     -- stylua: ignore
-    keys = {
+    keys = vim.tbl_filter(function(key) return key[1] ~= nil and key[1] ~= "" end, {
       { k.persistence_restore_session, function() require("persistence").load() end, desc = "Restore Session" },
       { k.persistence_select_session, function() require("persistence").select() end,desc = "Select Session" },
       { k.persistence_restore_last_session, function() require("persistence").load({ last = true }) end, desc = "Restore Last Session" },
       { k.persistence_skip_current_session, function() require("persistence").stop() end, desc = "Don't Save Current Session" },
-    },
+    }),
   },
 
   -- library used by other plugins
