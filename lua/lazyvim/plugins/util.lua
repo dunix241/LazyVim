@@ -33,9 +33,9 @@ return {
     },
     -- stylua: ignore
     keys = {
-      { k.toggle_scratch_buffer,  function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
-      { k.select_scratch_buffer,  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
-      { k.profiler_scratch_buffer, function() Snacks.profiler.scratch() end, desc = "Profiler Scratch Buffer" },
+      { k.snacks_toggle_scratch_buffer,  function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
+      { k.snacks_select_scratch_buffer,  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
+      { k.snacks_profiler_scratch_buffer, function() Snacks.profiler.scratch() end, desc = "Profiler Scratch Buffer" },
     },
   },
 
