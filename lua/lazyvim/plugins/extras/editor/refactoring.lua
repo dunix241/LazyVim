@@ -1,3 +1,10 @@
+if LazyVim.has_extra("editor.refactoring") then
+  if vim.fn.has("nvim-0.12") == 0 then
+    LazyVim.error("refactoring.nvim requires Neovim 0.12 or higher", { title = "refactoring.nvim" })
+    return {}
+  end
+end
+
 local k = require("lazyvim.keymaps").get_keymaps()
 
 local pick = function()
@@ -24,74 +31,59 @@ local pick = function()
 end
 
 return {
+  { "lewis6991/async.nvim", lazy = true },
+
   {
     "ThePrimeagen/refactoring.nvim",
     event = { "BufReadPre", "BufNewFile" },
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
     keys = {
       { k.refactoring_prefix, "", desc = "+refactor", mode = { "n", "x" } },
       {
         k.refactoring_refactor,
-        pick,
+        function()
+          return require("refactoring").select_refactor()
+        end,
         mode = { "n", "x" },
-        desc = "Refactor",
+        desc = "Select Refactor",
       },
       {
         k.refactoring_inline_variable,
         function()
-          return require("refactoring").refactor("Inline Variable")
+          return require("refactoring").inline_var()
         end,
         mode = { "n", "x" },
         desc = "Inline Variable",
         expr = true,
       },
       {
-        k.refactoring_extract_block,
-        function()
-          return require("refactoring").refactor("Extract Block")
-        end,
-        mode = { "n", "x" },
-        desc = "Extract Block",
-        expr = true,
-      },
-      {
-        k.refactoring_extract_block_to_file,
-        function()
-          return require("refactoring").refactor("Extract Block To File")
-        end,
-        mode = { "n", "x" },
-        desc = "Extract Block To File",
-        expr = true,
-      },
-      {
         k.refactoring_debug_print,
         function()
-          require("refactoring").debug.printf({ below = false })
+          return require("refactoring.debug").print_loc({ output_location = "below" })
         end,
-        desc = "Debug Print",
+        desc = "Debug Print Location",
+        expr = true,
       },
       {
         k.refactoring_debug_print_variable,
         function()
-          require("refactoring").debug.print_var({ normal = true })
+          return require("refactoring.debug").print_var({ output_location = "below" }) .. "iw"
         end,
         mode = { "n", "x" },
         desc = "Debug Print Variable",
+        expr = true,
       },
       {
         k.refactoring_debug_cleanup,
         function()
-          require("refactoring").debug.cleanup({})
+          return require("refactoring.debug").cleanup({ restore_view = true }) .. "ag"
         end,
         desc = "Debug Cleanup",
+        expr = true,
       },
       {
         k.refactoring_extract_function,
         function()
-          return require("refactoring").refactor("Extract Function")
+          return require("refactoring").extract_func()
         end,
         mode = { "n", "x" },
         desc = "Extract Function",
@@ -100,7 +92,7 @@ return {
       {
         k.refactoring_extract_function_to_file,
         function()
-          return require("refactoring").refactor("Extract Function To File")
+          return require("refactoring").extract_func_to_file()
         end,
         mode = { "n", "x" },
         desc = "Extract Function To File",
@@ -109,52 +101,13 @@ return {
       {
         k.refactoring_extract_variable,
         function()
-          return require("refactoring").refactor("Extract Variable")
+          return require("refactoring").extract_var()
         end,
         mode = { "n", "x" },
         desc = "Extract Variable",
         expr = true,
       },
-      {
-        k.refactoring_debug_print_variable,
-        function()
-          require("refactoring").debug.print_var()
-        end,
-        mode = { "n", "x" },
-        desc = "Debug Print Variable",
-      },
     },
-    opts = {
-      prompt_func_return_type = {
-        go = false,
-        java = false,
-        cpp = false,
-        c = false,
-        h = false,
-        hpp = false,
-        cxx = false,
-      },
-      prompt_func_param_type = {
-        go = false,
-        java = false,
-        cpp = false,
-        c = false,
-        h = false,
-        hpp = false,
-        cxx = false,
-      },
-      printf_statements = {},
-      print_var_statements = {},
-      show_success_message = true, -- shows a message with information about the refactor on success
-      -- i.e. [Refactor] Inlined 3 variable occurrences
-    },
-    config = function(_, opts)
-      require("refactoring").setup(opts)
-      if LazyVim.has("telescope.nvim") then
-        LazyVim.on_load("telescope.nvim", function()
-          require("telescope").load_extension("refactoring")
-        end)
-      end
-    end,
+    opts = {},
   },
 }

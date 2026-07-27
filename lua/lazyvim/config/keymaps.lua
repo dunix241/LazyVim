@@ -44,6 +44,9 @@ end, { desc = "Delete Buffer" })
 map("n", k.buf_delete_other, function()
   Snacks.bufdelete.other()
 end, { desc = "Delete Other Buffers" })
+map("n", k.buf_delete_invisible, function()
+  Snacks.bufdelete.invisible()
+end, { desc = "Delete Invisible Buffers" })
 map("n", k.buf_delete_and_close, "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
 
 -- Clear search and stop snippet on escape
@@ -190,8 +193,8 @@ map("n", k.lazyvim_changelog, function() LazyVim.news.changelog() end, { desc = 
 -- floating terminal
 map("n", k.terminal_toggle_cwd, function() Snacks.terminal() end, { desc = "Terminal (cwd)" })
 map("n", k.terminal_toggle_root, function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "Terminal (Root Dir)" })
-map({"n","t"}, k.terminal_hide_terminal,function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "Terminal (Root Dir)" })
-map({"n","t"}, k.terminal_hide_terminal_alt,function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "which_key_ignore" })
+map({"n","t"}, k.terminal_hide_terminal, function() Snacks.terminal.focus(nil, { cwd = LazyVim.root() }) end, { desc = "Terminal (Root Dir)" })
+map({"n","t"}, k.terminal_hide_terminal_alt, function() Snacks.terminal.focus(nil, { cwd = LazyVim.root() }) end, { desc = "which_key_ignore" })
 
 -- windows
 map("n", k.window_split_window_below, "<C-W>s", { desc = "Split Window Below", remap = true })
