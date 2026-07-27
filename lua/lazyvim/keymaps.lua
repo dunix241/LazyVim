@@ -1,31 +1,510 @@
 local M = {}
 
 ---@class LazyVimKeymaps
+---@field aerial_toggle string
+---@field ansible_run_playbook_role string
+---@field buf_delete string
+---@field buf_delete_and_close string
+---@field buf_delete_other string
+---@field buf_next string
+---@field buf_next_alt string
+---@field buf_prev string
+---@field buf_prev_alt string
+---@field buf_switch_to_other string
+---@field buf_switch_to_other_alt string
+---@field buffer_keymaps string
+---@field buffer_prefix string
+---@field bufferline_delete_buffers_to_the_left string
+---@field bufferline_delete_buffers_to_the_right string
+---@field bufferline_delete_non_pinned_buffers string
+---@field bufferline_move_buffer_next string
+---@field bufferline_move_buffer_prev string
+---@field bufferline_next_buffer string
+---@field bufferline_next_buffer_alt string
+---@field bufferline_prev_buffer string
+---@field bufferline_prev_buffer_alt string
+---@field bufferline_toggle_pin string
+---@field chezmoi_key string
+---@field chezmoi_pick_chezmoi string
+---@field chezmoi_select string
+---@field clangd_switch_source_header string
+---@field clear_search_diff_update_and_redraw string
+---@field clojure_jump_next_evaluation_output string
+---@field clojure_jump_prev_evaluation_output string
+---@field cmp_abort string
+---@field cmp_complete string
+---@field cmp_confirm_auto_select string
+---@field cmp_confirm_replace string
+---@field cmp_confirm_select string
+---@field cmp_scroll_docs_backward string
+---@field cmp_scroll_docs_forward string
+---@field cmp_select_and_accept string
+---@field cmp_select_next_item string
+---@field cmp_select_prev_item string
+---@field cmp_snippet_forward_ai_accept string
+---@field code_prefix string
+---@field comment_add_above string
+---@field comment_add_below string
+---@field conform_format string
+---@field copilotchat_clear string
+---@field copilotchat_diagnostic_help string
+---@field copilotchat_prefix string
+---@field copilotchat_prompt_actions string
+---@field copilotchat_quick_chat string
+---@field copilotchat_submit_prompt string
+---@field copilotchat_toggle string
+---@field dap_breakpoint_condition string
+---@field dap_continue string
+---@field dap_down string
+---@field dap_eval_dap_ui string
+---@field dap_go_to_line_no_execute string
+---@field dap_pause string
+---@field dap_prefix string
+---@field dap_run_last string
+---@field dap_run_to_cursor string
+---@field dap_run_with_args string
+---@field dap_session string
+---@field dap_step_into string
+---@field dap_step_out string
+---@field dap_step_over string
+---@field dap_terminate string
+---@field dap_toggle_breakpoint string
+---@field dap_toggle_dap_ui string
+---@field dap_toggle_repl string
+---@field dap_up string
+---@field dap_widgets string
+---@field dashboard_config string
+---@field dashboard_find_file string
+---@field dashboard_find_text string
+---@field dashboard_lazy string
+---@field dashboard_lazy_extras string
+---@field dashboard_new_file string
+---@field dashboard_projects string
+---@field dashboard_quit string
+---@field dashboard_recent_files string
+---@field dashboard_restore_session string
+---@field debug_prefix string
+---@field diagnostic_line_diagnostics string
+---@field diagnostic_next_diagnostic string
+---@field diagnostic_next_error string
+---@field diagnostic_next_warning string
+---@field diagnostic_prev_diagnostic string
+---@field diagnostic_prev_error string
+---@field diagnostic_prev_warning string
+---@field diagnostics_quickfix_prefix string
+---@field dial_decrement string
+---@field dial_decrement_g string
+---@field dial_increment string
+---@field dial_increment_g string
+---@field dismiss_all_notifications string
+---@field edgy_select_window string
+---@field edgy_toggle string
+---@field elixir_from_pipe string
+---@field elixir_to_pipe string
+---@field file_find_prefix string
+---@field flash_insert string
+---@field flash_jump string
+---@field flash_normal string
+---@field flash_remote string
+---@field flash_toggle string
+---@field flash_treesitter string
+---@field flash_treesitter_search string
+---@field format string
+---@field git_prefix string
+---@field gitsigns_blame_buffer string
+---@field gitsigns_blame_line string
+---@field gitsigns_diff_commit string
+---@field gitsigns_diff_index string
+---@field gitsigns_first_hunk string
+---@field gitsigns_last_hunk string
+---@field gitsigns_next_hunk string
+---@field gitsigns_prev_hunk string
+---@field gitsigns_preview_hunk_inline string
+---@field gitsigns_reset_buffer string
+---@field gitsigns_reset_hunk string
+---@field gitsigns_select_hunk string "Select hunk text object (gitsigns)"
+---@field gitsigns_stage_buffer string
+---@field gitsigns_stage_hunk string
+---@field gitsigns_toggle_signs string
+---@field gitsigns_undo_stage_hunk string
+---@field grugfar_open string
+---@field harpoon_file string
+---@field harpoon_quick_menu string
+---@field harpoon_to_file_prefix string
+---@field hunks_prefix string
+---@field illuminate_next string
+---@field illuminate_prev string
+---@field increname_rename string
+---@field indentblankline_toggle string
+---@field inspect_pos string
+---@field inspect_tree string
+---@field keywordprg string "Open keyword documentation"
+---@field kulala_close string
+---@field kulala_copy_as_curl string
+---@field kulala_download_graphql_schema string
+---@field kulala_inspect string
+---@field kulala_jump_to_next_request string
+---@field kulala_jump_to_previous_request string
+---@field kulala_open_scratchpad string
+---@field kulala_paste_from_curl string
+---@field kulala_prefix string
+---@field kulala_replay string
+---@field kulala_send_request string
+---@field kulala_set_env string
+---@field kulala_show_stats string
+---@field kulala_toggle_view string
+---@field lang_add_missing_imports string
+---@field lang_code_action string
+---@field lang_cycle_next_reference string
+---@field lang_cycle_prev_reference string
+---@field lang_extract_constant string
+---@field lang_extract_method string
+---@field lang_extract_prefix string
+---@field lang_extract_variable string
+---@field lang_file_references string
+---@field lang_fix_all_diagnostics string
+---@field lang_go_to_declaration string
+---@field lang_go_to_definition string
+---@field lang_go_to_implementation string
+---@field lang_go_to_subjects string
+---@field lang_go_to_super string
+---@field lang_go_to_type_definition string
+---@field lang_hover string
+---@field lang_insert_signature_help string
+---@field lang_lsp_info string
+---@field lang_mason string
+---@field lang_next_reference string
+---@field lang_organize_imports string
+---@field lang_prev_reference string
+---@field lang_references string
+---@field lang_refresh_codelens string
+---@field lang_remove_unused_imports string
+---@field lang_rename string
+---@field lang_rename_file string
+---@field lang_run_codelens string
+---@field lang_select_lang_version string
+---@field lang_signature_help string
+---@field lang_source_action string
+---@field lazy string
+---@field lazygit_blame_line string
+---@field lazygit_browse string
+---@field lazygit_browse_copy string
+---@field lazygit_current_file_history string
+---@field lazygit_git_log_cwd string
+---@field lazygit_git_log_root string
+---@field lazygit_toggle_cwd string
+---@field lazygit_toggle_root string
+---@field lazyvim_changelog string
+---@field lean_abbreviations_leader string
+---@field leap_from_windows string
+---@field leap_next string
+---@field leap_prev string
+---@field location_list string
+---@field markdown_preview_toggle string
+---@field markdown_render_markdown_toggle string
+---@field minianimae_toggle string
+---@field minidiff_toggle_overlay string
+---@field minifiles_open_current_file_dir string
+---@field minifiles_open_cwd string
+---@field minipairs_toggle string
+---@field minisurround_add string
+---@field minisurround_delete string
+---@field minisurround_find string
+---@field minisurround_find_left string
+---@field minisurround_highlight string
+---@field minisurround_prefix string
+---@field minisurround_replace string
+---@field minisurround_update_n_lines string
+---@field move_down string
+---@field move_up string
+---@field neogen_generate_annotation string
+---@field neotree_toggle_buffers string
+---@field neotree_toggle_cwd string
+---@field neotree_toggle_cwd_alt string
+---@field neotree_toggle_git_status string
+---@field neotree_toggle_root string
+---@field neotree_toggle_root_alt string
+---@field neotree_win_close_node string
+---@field neotree_win_copy_path_to_clipboard string
+---@field neotree_win_open string
+---@field neotree_win_open_with_system_application string
+---@field neotree_win_toggle_preview string
+---@field new_file string
+---@field next_quickfix string
+---@field noice_all string
+---@field noice_dismiss string
+---@field noice_history string
+---@field noice_last_message string
+---@field noice_pick string
+---@field noice_prefix string
+---@field noice_redirect_cmdline string
+---@field noice_scroll_backward string
+---@field noice_scroll_forward string
+---@field notification_history string
+---@field octo_assignee string
+---@field octo_comment_code string
+---@field octo_go_to_issue string
+---@field octo_insert_at string
+---@field octo_insert_hashtag string
+---@field octo_issue string
+---@field octo_issue_list string
+---@field octo_issue_search string
+---@field octo_label string
+---@field octo_pr string
+---@field octo_pr_list string
+---@field octo_pr_search string
+---@field octo_react string
+---@field octo_rebase string
+---@field octo_repo_list string
+---@field octo_review string
+---@field octo_search string
+---@field octo_squash string
+---@field outline_down_and_jump string
+---@field outline_up_and_jump string
+---@field overseer_build string
+---@field overseer_clear_cache string
+---@field overseer_info string
+---@field overseer_prefix string
+---@field overseer_quick_action string
+---@field overseer_run string
+---@field overseer_task_action string
+---@field overseer_toggle string
+---@field persistence_restore_last_session string
+---@field persistence_restore_session string
+---@field persistence_select_session string
+---@field persistence_skip_current_session string
+---@field picker_close string
+---@field picker_colorscheme_preview string
+---@field picker_command_history string
+---@field picker_cycle_history_next string
+---@field picker_cycle_history_prev string
+---@field picker_find_buffers string
+---@field picker_find_buffers_all string
+---@field picker_find_config_file string
+---@field picker_find_files_cwd string
+---@field picker_find_files_no_ignore string
+---@field picker_find_files_root string
+---@field picker_find_files_root_alt string
+---@field picker_find_files_with_hidden string
+---@field picker_find_git_files string
+---@field picker_find_projects string
+---@field picker_find_recent_files string
+---@field picker_find_recent_files_cwd string
+---@field picker_git_commits string
+---@field picker_git_commits_alt string
+---@field picker_git_diff string
+---@field picker_git_stash string
+---@field picker_git_status string
+---@field picker_go_to_symbol string
+---@field picker_go_to_symbol_workspace string
+---@field picker_grep_root string
+---@field picker_open_with_trouble string
+---@field picker_open_with_trouble_alt string
+---@field picker_preview_scrolling_down string
+---@field picker_preview_scrolling_up string
+---@field picker_search_autocommands string
+---@field picker_search_buffer string
+---@field picker_search_command_history string
+---@field picker_search_commands string
+---@field picker_search_document_diagnostics string
+---@field picker_search_grep_cwd string
+---@field picker_search_grep_root string
+---@field picker_search_help_pages string
+---@field picker_search_highlight_groups string
+---@field picker_search_history string
+---@field picker_search_jumplist string
+---@field picker_search_keymaps string
+---@field picker_search_loclist string
+---@field picker_search_man_pages string
+---@field picker_search_marks string
+---@field picker_search_options string
+---@field picker_search_quickfix string
+---@field picker_search_registers string
+---@field picker_search_resume string
+---@field picker_search_selection_cwd string
+---@field picker_search_selection_root string
+---@field picker_search_word_cwd string
+---@field picker_search_word_root string
+---@field picker_search_workspace_diagnostics string
+---@field picker_switch_buffer string
+---@field previous_quickfix string
+---@field profiler_prefix string
+---@field profiler_scratch_buffer string
+---@field python_debug_class string
+---@field python_debug_method string
+---@field python_select_virtual_env string
+---@field quickfix_list string
+---@field quit_all string
+---@field quit_buffer string "Close buffer"
+---@field quit_session_prefix string
+---@field r_send string
+---@field r_send_all string
+---@field r_send_between_marks string
+---@field r_send_chunks string
+---@field r_send_functions string
+---@field r_send_general string
+---@field r_send_goto string
+---@field r_send_install string
+---@field r_send_knit string
+---@field r_send_paragraph string
+---@field r_send_quarto string
+---@field r_send_split_or_send string
+---@field r_send_terminal string
+---@field r_send_view string
+---@field refactoring_debug_cleanup string
+---@field refactoring_debug_print string
+---@field refactoring_debug_print_variable string
+---@field refactoring_extract_block string
+---@field refactoring_extract_block_to_file string
+---@field refactoring_extract_function string
+---@field refactoring_extract_function_to_file string
+---@field refactoring_extract_variable string
+---@field refactoring_inline_variable string
+---@field refactoring_prefix string
+---@field refactoring_refactor string
+---@field rust_code_action string
+---@field rust_debuggables string
+---@field rust_show_crate_documentation string
+---@field save_file string
+---@field scala_metals_commands string
+---@field scala_metals_compile_cascade string
+---@field scala_metals_hover_worksheet string
+---@field search_prefix string
+---@field select_scratch_buffer string
+---@field size_decrease_height string
+---@field size_decrease_width string
+---@field size_increase_height string
+---@field size_increase_width string
+---@field snacks_debug_run string
+---@field snippet_jump_next string
+---@field snippet_jump_prev string
+---@field sql_toggle_dbui string
+---@field tab_close_other_tabs string
+---@field tab_close_tab string
+---@field tab_first_tab string
+---@field tab_last_tab string
+---@field tab_new_tab string
+---@field tab_next_tab string
+---@field tab_previous_tab string
+---@field tabs_prefix string
+---@field terminal_enter_normal_mode string "Exit terminal to normal mode"
+---@field terminal_hide_terminal string
+---@field terminal_hide_terminal_alt string
+---@field terminal_toggle_cwd string
+---@field terminal_toggle_root string
+---@field terminal_toggle_root_alt_1 string
+---@field terminal_toggle_root_alt_2 string
+---@field test_attach string
+---@field test_debug_nearest string
+---@field test_prefix string
+---@field test_run_all_test_files string
+---@field test_run_file string
+---@field test_run_last string
+---@field test_run_nearest string
+---@field test_show_output string
+---@field test_stop string
+---@field test_toggle_output_panel string
+---@field test_toggle_summary string
+---@field test_toggle_watch string
+---@field tex_prefix string
+---@field tex_vimtex_docs string
+---@field todo_fix_fixme_telescope string
+---@field todo_fix_fixme_trouble string
+---@field todo_next_todo string
+---@field todo_prev_todo string
+---@field todo_telescope string
+---@field todo_trouble string
+---@field toggle_animate string
+---@field toggle_auto_format_buffer string
+---@field toggle_auto_format_global string
+---@field toggle_background string
+---@field toggle_conceallevel string
+---@field toggle_diagnostics string
+---@field toggle_dim string
+---@field toggle_indent string
+---@field toggle_inlay_hints string
+---@field toggle_number string
+---@field toggle_profiler string
+---@field toggle_profiler_highlights string
+---@field toggle_relativenumber string
+---@field toggle_scratch_buffer string
+---@field toggle_scroll string
+---@field toggle_show_tabline string
+---@field toggle_spelling string
+---@field toggle_treesitter string
+---@field toggle_wrap string
+---@field trouble_diagnostics_buffer_toggle string
+---@field trouble_diagnostics_toggle string
+---@field trouble_loclist_toggle string
+---@field trouble_lsp_toggle string
+---@field trouble_next_trouble string
+---@field trouble_previous_trouble string
+---@field trouble_qflist_toggle string
+---@field trouble_symbols_toggle string
+---@field ts_decrement_selection string
+---@field ts_increment_selection string
+---@field ts_ne_class_outer string
+---@field ts_ne_function_outer string
+---@field ts_ne_parameter_inner string
+---@field ts_ns_class_outer string
+---@field ts_ns_function_outer string
+---@field ts_ns_parameter_inner string
+---@field ts_pe_class_outer string
+---@field ts_pe_function_outer string
+---@field ts_pe_parameter_inner string
+---@field ts_ps_class_outer string
+---@field ts_ps_function_outer string
+---@field ts_ps_parameter_inner string
+---@field tscontext_toggle string
+---@field typescript_go_to_source_definition string
+---@field ui_prefix string
+---@field vscode_find string
+---@field vscode_find_in_files string
+---@field vscode_go_to_symbol string
+---@field window_delete_window string
+---@field window_hydra_mode string "Switch to window hydra mode"
+---@field window_left string
+---@field window_lower string
+---@field window_right string
+---@field window_split_window_below string
+---@field window_split_window_right string
+---@field window_toggle_maximize_window string
+---@field window_toggle_maximize_window_alt string
+---@field window_toggle_zen string
+---@field window_upper string
+---@field windows_prefix string
+---@field yanky_cycle_backward_yank_history string
+---@field yanky_cycle_forward_yank_history string
+---@field yanky_put_after_filter string
+---@field yanky_put_and_indent_left string
+---@field yanky_put_and_indent_right string
+---@field yanky_put_before_filter string
+---@field yanky_put_before_indent_left string
+---@field yanky_put_before_indent_right string
+---@field yanky_put_indent_after_cursor_linewise string
+---@field yanky_put_indent_after_cursor_linewise_alt string
+---@field yanky_put_indent_before_cursor_linewise string
+---@field yanky_put_indent_before_cursor_linewise_alt string
+---@field yanky_put_text_after_cursor string
+---@field yanky_put_text_after_selection string
+---@field yanky_put_text_before_cursor string
+---@field yanky_put_text_before_selection string
+---@field yanky_yank string
+---@field yanky_yank_history string
 local keymaps = nil
 
--- Comments are intentionally left in for keymap context acknowledgment
--- and easier navigation with '%' (matching parenthesis jump)
-
----@class LazyVimKeymaps
+---@type LazyVimKeymaps
 M.default_keymaps = {
-  -- global = {
-  --   window = {
   window_left = "<C-h>",
   window_lower = "<C-j>",
   window_upper = "<C-k>",
   window_right = "<C-l>",
-  -- },
-  -- resize_window = {
   size_increase_height = "<C-Up>",
   size_decrease_height = "<C-Down>",
   size_decrease_width = "<C-Left>",
   size_increase_width = "<C-Right>",
-  -- },
-  -- move_lines = {
   move_down = "<A-j>",
   move_up = "<A-k>",
-  -- },
-  -- buffers = {
   buf_prev = "<S-h>",
   buf_next = "<S-l>",
   buf_prev_alt = "[b",
@@ -35,14 +514,11 @@ M.default_keymaps = {
   buf_delete = "<leader>bd",
   buf_delete_other = "<leader>bo",
   buf_delete_and_close = "<leader>bD",
-  -- },
   clear_search_diff_update_and_redraw = "<leader>ur",
   save_file = "<C-s>",
   keywordprg = "<leader>K",
-  -- commenting = {
   comment_add_below = "gco",
   comment_add_above = "gcO",
-  -- },
   lazy = "<leader>l",
   new_file = "<leader>fn",
   location_list = "<leader>xl",
@@ -50,7 +526,6 @@ M.default_keymaps = {
   previous_quickfix = "[q",
   next_quickfix = "]q",
   format = "<leader>cf",
-  -- diagnostics = {
   diagnostic_line_diagnostics = "<leader>cd",
   diagnostic_next_diagnostic = "]d",
   diagnostic_prev_diagnostic = "[d",
@@ -58,8 +533,6 @@ M.default_keymaps = {
   diagnostic_prev_error = "[e",
   diagnostic_next_warning = "]w",
   diagnostic_prev_warning = "[w",
-  -- },
-  -- toggle_options = {
   toggle_auto_format_buffer = "<leader>uf",
   toggle_auto_format_global = "<leader>uF",
   toggle_spelling = "<leader>us",
@@ -78,8 +551,6 @@ M.default_keymaps = {
   toggle_scroll = "<leader>uS",
   toggle_profiler = "<leader>dpp",
   toggle_profiler_highlights = "<leader>dph",
-  -- },
-  -- lazygit = {
   lazygit_toggle_root = "<leader>gg",
   lazygit_toggle_cwd = "<leader>gG",
   lazygit_blame_line = "<leader>gb",
@@ -88,31 +559,23 @@ M.default_keymaps = {
   lazygit_current_file_history = "<leader>gf",
   lazygit_git_log_root = "<leader>gl",
   lazygit_git_log_cwd = "<leader>gL",
-  -- },
   quit_all = "<leader>qq",
   inspect_pos = "<leader>ui",
   inspect_tree = "<leader>uI",
   lazyvim_changelog = "<leader>L",
-  -- terminal = {
-  --   floating_terminal = {
   terminal_toggle_root = "<leader>ft",
   terminal_toggle_cwd = "<leader>fT",
   terminal_toggle_root_alt_1 = "<c-/>",
   terminal_toggle_root_alt_2 = "<c-_>",
-  -- },
   terminal_enter_normal_mode = "<esc><esc>",
   terminal_hide_terminal = "<C-/>",
   terminal_hide_terminal_alt = "<c-_>",
-  -- },
-  -- windows = {
   window_split_window_below = "<leader>-",
   window_split_window_right = "<leader>|",
   window_delete_window = "<leader>wd",
   window_toggle_maximize_window = "<leader>wm",
   window_toggle_maximize_window_alt = "<leader>uZ",
   window_toggle_zen = "<leader>uz",
-  -- },
-  -- tabs = {
   tab_last_tab = "<leader><tab>l",
   tab_close_other_tabs = "<leader><tab>o",
   tab_first_tab = "<leader><tab>f",
@@ -120,11 +583,7 @@ M.default_keymaps = {
   tab_next_tab = "<leader><tab>]",
   tab_close_tab = "<leader><tab>d",
   tab_previous_tab = "<leader><tab>[",
-  --   },
-  -- },
   quit_buffer = "q",
-  -- coding = {
-  --   cmp = {
   cmp_scroll_docs_backward = "<C-b>",
   cmp_scroll_docs_forward = "<C-f>",
   cmp_select_next_item = "<C-n>",
@@ -136,40 +595,25 @@ M.default_keymaps = {
   cmp_abort = "<C-CR>",
   cmp_snippet_forward_ai_accept = "<tab>",
   cmp_select_and_accept = "<C-y>",
-  -- snippet = {
   snippet_jump_next = "<Tab>",
   snippet_jump_prev = "<S-Tab>",
-  --     },
-  --   },
-  -- },
-  -- editor = {
-  -- neo_tree = {
   neotree_toggle_root = "<leader>fe",
   neotree_toggle_cwd = "<leader>fE",
   neotree_toggle_root_alt = "<leader>e",
   neotree_toggle_cwd_alt = "<leader>E",
   neotree_toggle_git_status = "<leader>ge",
   neotree_toggle_buffers = "<leader>be",
-  -- window = {
   neotree_win_open = "l",
   neotree_win_close_node = "h",
   neotree_win_copy_path_to_clipboard = "Y",
   neotree_win_open_with_system_application = "O",
   neotree_win_toggle_preview = "P",
-  --   },
-  -- },
-  -- grug_far = {
   grugfar_open = "<leader>sr",
-  -- },
-  -- flash = {
   flash_jump = "s",
   flash_treesitter = "S",
   flash_remote = "r",
   flash_treesitter_search = "R",
   flash_toggle = "<c-s>",
-  -- },
-  -- which_key = {
-  --   group = {
   tabs_prefix = "<leader><tab>",
   code_prefix = "<leader>c",
   debug_prefix = "<leader>d",
@@ -183,11 +627,8 @@ M.default_keymaps = {
   diagnostics_quickfix_prefix = "<leader>x",
   buffer_prefix = "<leader>b",
   windows_prefix = "<leader>w",
-  -- },
   buffer_keymaps = "<leader>?",
   window_hydra_mode = "<c-w><space>",
-  -- },
-  -- gitsigns = {
   gitsigns_next_hunk = "]h",
   gitsigns_prev_hunk = "[h",
   gitsigns_last_hunk = "]H",
@@ -204,8 +645,6 @@ M.default_keymaps = {
   gitsigns_diff_commit = "<leader>ghD",
   gitsigns_select_hunk = "ih",
   gitsigns_toggle_signs = "<leader>uG",
-  -- },
-  -- trouble = {
   trouble_diagnostics_toggle = "<leader>xx",
   trouble_diagnostics_buffer_toggle = "<leader>xX",
   trouble_symbols_toggle = "<leader>cs",
@@ -214,57 +653,33 @@ M.default_keymaps = {
   trouble_qflist_toggle = "<leader>xQ",
   trouble_previous_trouble = "[q",
   trouble_next_trouble = "]q",
-  -- },
-  -- todo_comments = {
   todo_next_todo = "]t",
   todo_prev_todo = "[t",
   todo_trouble = "<leader>xt",
   todo_fix_fixme_trouble = "<leader>xT",
   todo_telescope = "<leader>st",
   todo_fix_fixme_telescope = "<leader>sT",
-  --   },
-  -- },
-  -- formatting = {
-  --   conform = {
   conform_format = "<leader>cF",
-  --   },
-  -- },
-  -- treesitter = {
   ts_increment_selection = "<C-Space>",
   ts_decrement_selection = "<BS>",
-  -- textobjects = {
-  -- goto_next_start = {
   ts_ns_function_outer = "]f",
   ts_ns_class_outer = "]c",
   ts_ns_parameter_inner = "]a",
-  -- },
-  -- goto_next_end = {
   ts_ne_function_outer = "]F",
   ts_ne_class_outer = "]C",
   ts_ne_parameter_inner = "]A",
-  -- },
-  -- goto_previous_start = {
   ts_ps_function_outer = "[f",
   ts_ps_class_outer = "[c",
   ts_ps_parameter_inner = "[a",
-  -- },
-  -- goto_previous_end = {
   ts_pe_function_outer = "[F",
   ts_pe_class_outer = "[C",
   ts_pe_parameter_inner = "[A",
-  --     },
-  --   },
-  -- },
-  -- ui = {
-  -- snacks = {
   toggle_scratch_buffer = "<leader>.",
   select_scratch_buffer = "<leader>S",
   profiler_scratch_buffer = "<leader>dps",
   notification_history = "<leader>n",
   dismiss_all_notifications = "<leader>un",
   snacks_debug_run = "<localleader>r",
-  -- },
-  -- bufferline = {
   bufferline_toggle_pin = "<leader>bp",
   bufferline_delete_non_pinned_buffers = "<leader>bP",
   bufferline_delete_buffers_to_the_right = "<leader>br",
@@ -275,11 +690,7 @@ M.default_keymaps = {
   bufferline_next_buffer_alt = "]b",
   bufferline_move_buffer_prev = "[B",
   bufferline_move_buffer_next = "]B",
-  -- },
-  -- indent_blankline = {
   indentblankline_toggle = "<leader>ug",
-  -- },
-  -- noice = {
   noice_prefix = "<leader>sn",
   noice_redirect_cmdline = "<S-Enter>",
   noice_last_message = "<leader>snl",
@@ -289,8 +700,6 @@ M.default_keymaps = {
   noice_pick = "<leader>snt",
   noice_scroll_forward = "<c-f>",
   noice_scroll_backward = "<c-b>",
-  -- },
-  -- dashboard = {
   dashboard_find_file = "f",
   dashboard_new_file = "n",
   dashboard_recent_files = "r",
@@ -301,22 +710,11 @@ M.default_keymaps = {
   dashboard_lazy = "l",
   dashboard_quit = "q",
   dashboard_projects = "P",
-  -- },
-  -- },
-  -- util = {
-  -- persistence = {
   persistence_restore_session = "<leader>qs",
   persistence_select_session = "<leader>qS",
   persistence_restore_last_session = "<leader>ql",
   persistence_skip_current_session = "<leader>qd",
-  -- },
-  -- mini_pairs = {
   minipairs_toggle = "<leader>up",
-  -- },
-  -- },
-  -- extras = {
-  --   coding = {
-  --     copilot_chat = {
   copilotchat_submit_prompt = "<c-s>",
   copilotchat_prefix = "<leader>a",
   copilotchat_toggle = "<leader>aa",
@@ -324,8 +722,6 @@ M.default_keymaps = {
   copilotchat_quick_chat = "<leader>aq",
   copilotchat_diagnostic_help = "<leader>ad",
   copilotchat_prompt_actions = "<leader>ap",
-  -- },
-  -- mini_surround = {
   minisurround_prefix = "gs",
   minisurround_add = "gsa",
   minisurround_delete = "gsd",
@@ -334,11 +730,7 @@ M.default_keymaps = {
   minisurround_highlight = "gsh",
   minisurround_replace = "gsr",
   minisurround_update_n_lines = "gsn",
-  -- },
-  -- neogen = {
   neogen_generate_annotation = "<leader>cn",
-  -- },
-  -- yanky = {
   yanky_yank_history = "<leader>p",
   yanky_yank = "y",
   yanky_put_text_after_cursor = "p",
@@ -357,11 +749,6 @@ M.default_keymaps = {
   yanky_put_before_indent_left = "<P",
   yanky_put_after_filter = "=p",
   yanky_put_before_filter = "=P",
-  --   },
-  -- },
-  -- dap = {
-  --   core = {
-  --     nvim_dap = {
   dap_prefix = "<leader>d",
   dap_breakpoint_condition = "<leader>dB",
   dap_toggle_breakpoint = "<leader>db",
@@ -380,52 +767,27 @@ M.default_keymaps = {
   dap_session = "<leader>ds",
   dap_terminate = "<leader>dt",
   dap_widgets = "<leader>dw",
-  -- },
-  -- nvim_dap_ui = {
   dap_toggle_dap_ui = "<leader>du",
   dap_eval_dap_ui = "<leader>de",
-  --     },
-  --   },
-  -- },
-  -- editor = {
-  --   aerial = {
   aerial_toggle = "<leader>cs",
-  -- },
-  -- dial = {
   dial_increment = "<C-a>",
   dial_decrement = "<C-x>",
   dial_increment_g = "g<C-a>",
   dial_decrement_g = "g<C-x>",
-  -- },
-  -- harpoon2 = {
   harpoon_file = "<leader>H",
   harpoon_quick_menu = "<leader>h",
   harpoon_to_file_prefix = "<leader>",
-  -- },
-  -- vim_illuminate = {
   illuminate_next = "]]",
   illuminate_prev = "[[",
-  -- },
-  -- inc_rename = {
   increname_rename = "<leader>cr",
-  -- },
-  -- leap = {
   leap_next = "s",
   leap_prev = "S",
   leap_from_windows = "gs",
-  -- },
-  -- mini_diff = {
   minidiff_toggle_overlay = "<leader>go",
-  -- },
-  -- mini_files = {
   minifiles_open_current_file_dir = "<leader>fm",
   minifiles_open_cwd = "<leader>fM",
-  -- },
-  -- outline = {
   outline_up_and_jump = "<up>",
   outline_down_and_jump = "<down>",
-  -- },
-  -- overseer = {
   overseer_prefix = "<leader>o",
   overseer_toggle = "<leader>ow",
   overseer_quick_action = "<leader>oq",
@@ -434,8 +796,6 @@ M.default_keymaps = {
   overseer_build = "<leader>ob",
   overseer_task_action = "<leader>ot",
   overseer_clear_cache = "<leader>oc",
-  -- },
-  -- refactoring = {
   refactoring_prefix = "<leader>r",
   refactoring_refactor = "<leader>rs",
   refactoring_inline_variable = "<leader>ri",
@@ -447,8 +807,6 @@ M.default_keymaps = {
   refactoring_extract_function = "<leader>rf",
   refactoring_extract_function_to_file = "<leader>rF",
   refactoring_extract_variable = "<leader>rx",
-  -- },
-  -- picker = {
   picker_switch_buffer = "<leader>,",
   picker_grep_root = "<leader>/",
   picker_command_history = "<leader>:",
@@ -494,7 +852,6 @@ M.default_keymaps = {
   picker_colorscheme_preview = "<leader>uC",
   picker_go_to_symbol = "<leader>ss",
   picker_go_to_symbol_workspace = "<leader>sS",
-  -- actions = {
   picker_open_with_trouble = "<c-t>",
   picker_open_with_trouble_alt = "<a-t>",
   picker_find_files_no_ignore = "<a-i>",
@@ -504,15 +861,8 @@ M.default_keymaps = {
   picker_preview_scrolling_down = "<C-f>",
   picker_preview_scrolling_up = "<C-b>",
   picker_close = "q",
-  -- },
-  -- flash = {
   flash_normal = "s",
   flash_insert = "<c-s>",
-  --     },
-  --   },
-  -- },
-  -- test = {
-  --   core = {
   test_prefix = "<leader>t",
   test_attach = "<leader>ta",
   test_run_file = "<leader>tt",
@@ -525,9 +875,6 @@ M.default_keymaps = {
   test_stop = "<leader>tS",
   test_toggle_watch = "<leader>tw",
   test_debug_nearest = "<leader>td",
-  --   },
-  -- },
-  -- lang = {
   lang_lsp_info = "<leader>cl",
   lang_mason = "<leader>cm",
   lang_go_to_definition = "gd",
@@ -556,39 +903,22 @@ M.default_keymaps = {
   lang_remove_unused_imports = "<leader>cu",
   lang_fix_all_diagnostics = "<leader>cD",
   lang_select_lang_version = "<leader>cV",
-  -- extract = {
   lang_extract_prefix = "<leader>cx",
   lang_extract_method = "<leader>cxm",
   lang_extract_variable = "<leader>cxv",
   lang_extract_constant = "<leader>cxc",
-  -- },
-  -- ansible = {
   ansible_run_playbook_role = "<leader>ta",
-  -- },
-  -- clangd = {
   clangd_switch_source_header = "<leader>ch",
-  -- },
-  -- clojure = {
   clojure_jump_prev_evaluation_output = "[c",
   clojure_jump_next_evaluation_output = "]c",
-  -- },
-  -- elixir = {
   elixir_to_pipe = "<leader>cp",
   elixir_from_pipe = "<leader>cP",
-  -- },
-  -- lean = {
   lean_abbreviations_leader = "\\",
-  -- },
-  -- markdown = {
   markdown_preview_toggle = "<leader>cp",
   markdown_render_markdown_toggle = "<leader>um",
-  -- },
-  -- python = {
   python_debug_method = "<leader>dPt",
   python_debug_class = "<leader>dPc",
   python_select_virtual_env = "<leader>cv",
-  -- },
-  -- r = {
   r_send = "<Enter>",
   r_send_all = "<localleader>a",
   r_send_between_marks = "<localleader>b",
@@ -603,47 +933,23 @@ M.default_keymaps = {
   r_send_split_or_send = "<localleader>s",
   r_send_terminal = "<localleader>t",
   r_send_view = "<localleader>v",
-  -- },
-  -- rust = {
   rust_code_action = "<leader>cR",
   rust_debuggables = "<leader>dr",
   rust_show_crate_documentation = "K",
-  -- },
-  -- scala = {
   scala_metals_commands = "<leader>me",
   scala_metals_compile_cascade = "<leader>mc",
   scala_metals_hover_worksheet = "<leader>mh",
-  -- },
-  -- sql = {
   sql_toggle_dbui = "<leader>D",
-  -- },
-  -- tex = {
   tex_prefix = "<localLeader>l",
   tex_vimtex_docs = "<Leader>K",
-  -- },
-  -- typescript = {
   typescript_go_to_source_definition = "gD",
-  --   },
-  -- },
-  -- ui = {
-  --   edgy = {
   edgy_toggle = "<leader>ue",
   edgy_select_window = "<leader>uE",
-  -- },
-  -- mini_animate = {
   minianimae_toggle = "<leader>ua",
-  -- },
-  -- treesitter_context = {
   tscontext_toggle = "<leader>ut",
-  --   },
-  -- },
-  -- util = {
-  --   chezmoi = {
   chezmoi_pick_chezmoi = "<leader>sz",
   chezmoi_select = "<CR>",
   chezmoi_key = "c",
-  -- },
-  -- octo = {
   octo_issue_list = "<leader>gi",
   octo_issue_search = "<leader>gI",
   octo_pr_list = "<leader>gp",
@@ -662,9 +968,6 @@ M.default_keymaps = {
   octo_go_to_issue = "<localleader>g",
   octo_insert_at = "@",
   octo_insert_hashtag = "#",
-  -- },
-  -- rest = {
-  --   kulala = {
   kulala_prefix = "<leader>R",
   kulala_open_scratchpad = "<leader>Rb",
   kulala_copy_as_curl = "<leader>Rc",
@@ -679,15 +982,9 @@ M.default_keymaps = {
   kulala_send_request = "<leader>Rs",
   kulala_show_stats = "<leader>RS",
   kulala_toggle_view = "<leader>Rt",
-  --   },
-  -- },
-  -- },
-  -- vscode = {
   vscode_find = "<leader><space>",
   vscode_find_in_files = "<leader>/",
   vscode_go_to_symbol = "<leader>ss",
-  --   },
-  -- },
 }
 
 local function flattenTable(inputTable)
@@ -716,6 +1013,11 @@ M.get_keymaps = function()
     vim.g.lazyvim_keymaps = keymaps -- update global for later retrieval
   end
   return keymaps
+end
+
+---@param overrides? LazyVimKeymaps
+function M.setup(overrides)
+  vim.g.lazyvim_keymaps = overrides or {}
 end
 
 return M
