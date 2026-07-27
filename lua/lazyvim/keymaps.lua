@@ -1006,9 +1006,4 @@ M.get_keymaps = function()
   return keymaps
 end
 
----@param overrides? LazyVimKeymaps
-function M.setup(overrides)
-  vim.g.lazyvim_keymaps = overrides or {}
-end
-
 return M
