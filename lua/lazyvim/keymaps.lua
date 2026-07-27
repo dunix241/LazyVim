@@ -326,7 +326,6 @@ local M = {}
 ---@field picker_switch_buffer string "Switch Buffer (default: <leader>,)"
 ---@field previous_quickfix string "Previous Quickfix (default: [q)"
 ---@field profiler_prefix string "Profiler (default: <leader>dp)"
----@field profiler_scratch_buffer string "Profiler Scratch Buffer (default: <leader>dps)"
 ---@field python_debug_class string "Debug Class (Python) (default: <leader>dPc)"
 ---@field python_debug_method string "Debug Method (Python) (default: <leader>dPt)"
 ---@field python_select_virtual_env string "Select VirtualEnv (default: <leader>cv)"
@@ -365,12 +364,14 @@ local M = {}
 ---@field scala_metals_compile_cascade string "Compile Cascade (Scala) (default: <leader>mc)"
 ---@field scala_metals_hover_worksheet string "Hover Worksheet (Scala) (default: <leader>mh)"
 ---@field search_prefix string "Search (default: <leader>s)"
----@field select_scratch_buffer string "Select Scratch Buffer (default: <leader>S)"
 ---@field size_decrease_height string "Decrease Height (default: <C-Down>)"
 ---@field size_decrease_width string "Decrease Width (default: <C-Left>)"
 ---@field size_increase_height string "Increase Height (default: <C-Up>)"
 ---@field size_increase_width string "Increase Width (default: <C-Right>)"
 ---@field snacks_debug_run string "Run Lua (default: <localleader>r)"
+---@field snacks_profiler_scratch_buffer string "Profiler Scratch Buffer (default: <leader>dps)"
+---@field snacks_select_scratch_buffer string "Select Scratch Buffer (default: <leader>S)"
+---@field snacks_toggle_scratch_buffer string "Toggle Scratch Buffer (default: <leader>.)"
 ---@field snippet_jump_next string "Jump Next Snippet (default: <Tab>)"
 ---@field snippet_jump_prev string "Jump Prev Snippet (default: <S-Tab>)"
 ---@field sql_toggle_dbui string "Toggle DBUI (default: <leader>D)"
@@ -422,7 +423,6 @@ local M = {}
 ---@field toggle_profiler string "Toggle Profiler (default: <leader>dpp)"
 ---@field toggle_profiler_highlights string "Toggle Profiler highlights (default: <leader>dph)"
 ---@field toggle_relativenumber string "Toggle Relativenumber (default: <leader>uL)"
----@field toggle_scratch_buffer string "Toggle Scratch Buffer (default: <leader>.)"
 ---@field toggle_scroll string "Toggle Scroll (default: <leader>uS)"
 ---@field toggle_show_tabline string "Toggle Show tabline (default: <leader>uA)"
 ---@field toggle_spelling string "Toggle Spelling (default: <leader>us)"
@@ -670,9 +670,9 @@ M.default_keymaps = {
   ts_pe_function_outer = "[F", -- Treesitter: Pe function outer
   ts_pe_class_outer = "[C", -- Treesitter: Pe class outer
   ts_pe_parameter_inner = "[A", -- Treesitter: Pe parameter inner
-  toggle_scratch_buffer = "<leader>.", -- Toggle Scratch Buffer
-  select_scratch_buffer = "<leader>S", -- Select Scratch Buffer
-  profiler_scratch_buffer = "<leader>dps", -- Profiler Scratch Buffer
+  snacks_toggle_scratch_buffer = "<leader>.", -- Toggle Scratch Buffer
+  snacks_select_scratch_buffer = "<leader>S", -- Select Scratch Buffer
+  snacks_profiler_scratch_buffer = "<leader>dps", -- Profiler Scratch Buffer
   notification_history = "<leader>n", -- Notification History
   dismiss_all_notifications = "<leader>un", -- Dismiss All Notifications
   snacks_debug_run = "<localleader>r", -- Run Lua
