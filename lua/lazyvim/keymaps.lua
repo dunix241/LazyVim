@@ -5,6 +5,7 @@ local M = {}
 ---@field ansible_run_playbook_role string
 ---@field buf_delete string
 ---@field buf_delete_and_close string
+---@field buf_delete_invisible string
 ---@field buf_delete_other string
 ---@field buf_next string
 ---@field buf_next_alt string
@@ -19,6 +20,7 @@ local M = {}
 ---@field bufferline_delete_non_pinned_buffers string
 ---@field bufferline_move_buffer_next string
 ---@field bufferline_move_buffer_prev string
+---@field bufferline_pick string
 ---@field bufferline_next_buffer string
 ---@field bufferline_next_buffer_alt string
 ---@field bufferline_prev_buffer string
@@ -261,11 +263,7 @@ local M = {}
 ---@field octo_squash string
 ---@field outline_down_and_jump string
 ---@field outline_up_and_jump string
----@field overseer_build string
----@field overseer_clear_cache string
----@field overseer_info string
 ---@field overseer_prefix string
----@field overseer_quick_action string
 ---@field overseer_run string
 ---@field overseer_task_action string
 ---@field overseer_toggle string
@@ -354,8 +352,6 @@ local M = {}
 ---@field refactoring_debug_cleanup string
 ---@field refactoring_debug_print string
 ---@field refactoring_debug_print_variable string
----@field refactoring_extract_block string
----@field refactoring_extract_block_to_file string
 ---@field refactoring_extract_function string
 ---@field refactoring_extract_function_to_file string
 ---@field refactoring_extract_variable string
@@ -512,6 +508,7 @@ M.default_keymaps = {
   buf_switch_to_other = "<leader>bb",
   buf_switch_to_other_alt = "<leader>`",
   buf_delete = "<leader>bd",
+  buf_delete_invisible = "<leader>bi",
   buf_delete_other = "<leader>bo",
   buf_delete_and_close = "<leader>bD",
   clear_search_diff_update_and_redraw = "<leader>ur",
@@ -690,6 +687,7 @@ M.default_keymaps = {
   bufferline_next_buffer_alt = "]b",
   bufferline_move_buffer_prev = "[B",
   bufferline_move_buffer_next = "]B",
+  bufferline_pick = "<leader>bj",
   indentblankline_toggle = "<leader>ug",
   noice_prefix = "<leader>sn",
   noice_redirect_cmdline = "<S-Enter>",
@@ -790,17 +788,11 @@ M.default_keymaps = {
   outline_down_and_jump = "<down>",
   overseer_prefix = "<leader>o",
   overseer_toggle = "<leader>ow",
-  overseer_quick_action = "<leader>oq",
   overseer_run = "<leader>oo",
-  overseer_info = "<leader>oi",
-  overseer_build = "<leader>ob",
   overseer_task_action = "<leader>ot",
-  overseer_clear_cache = "<leader>oc",
   refactoring_prefix = "<leader>r",
   refactoring_refactor = "<leader>rs",
   refactoring_inline_variable = "<leader>ri",
-  refactoring_extract_block = "<leader>rb",
-  refactoring_extract_block_to_file = "<leader>rf",
   refactoring_debug_print = "<leader>rP",
   refactoring_debug_print_variable = "<leader>rp",
   refactoring_debug_cleanup = "<leader>rc",

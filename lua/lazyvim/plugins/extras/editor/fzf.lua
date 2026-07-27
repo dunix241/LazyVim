@@ -232,7 +232,7 @@ return {
       { k.picker_find_recent_files_cwd, LazyVim.pick("oldfiles", { cwd = vim.uv.cwd() }), desc = "Recent (cwd)" },
       -- git
       { k.picker_git_commits, "<cmd>FzfLua git_commits<CR>", desc = "Commits" },
-      { k.picker_git_diff, "<cmd>FzfLua git_diff<cr>", desc = "Git Diff (hunks)" },
+      { k.picker_git_diff, "<cmd>FzfLua git_diff<cr>", desc = "Git Diff (files)" },
       { k.picker_git_commits_alt, "<cmd>FzfLua git_commits<CR>", desc = "Commits" },
       { k.picker_git_status, "<cmd>FzfLua git_status<CR>", desc = "Status" },
       { k.picker_git_stash, "<cmd>FzfLua git_stash<cr>", desc = "Git Stash" },

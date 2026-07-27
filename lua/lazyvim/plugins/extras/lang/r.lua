@@ -5,7 +5,7 @@ return {
   recommended = function()
     return LazyVim.extras.wants({
       ft = "r",
-      root = { "*.R", "*.Rmd", "*qmd" },
+      root = { "*.R", "*.Rmd", "*.qmd" },
     })
   end,
   {

@@ -8,16 +8,8 @@ return {
     event = "VeryLazy",
     keys = {
       { k.bufferline_toggle_pin, "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
-      {
-        k.bufferline_delete_non_pinned_buffers,
-        "<Cmd>BufferLineGroupClose ungrouped<CR>",
-        desc = "Delete Non-Pinned Buffers",
-      },
-      {
-        k.bufferline_delete_buffers_to_the_right,
-        "<Cmd>BufferLineCloseRight<CR>",
-        desc = "Delete Buffers to the Right",
-      },
+      { k.bufferline_delete_non_pinned_buffers, "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete Non-Pinned Buffers" },
+      { k.bufferline_delete_buffers_to_the_right, "<Cmd>BufferLineCloseRight<CR>", desc = "Delete Buffers to the Right" },
       { k.bufferline_delete_buffers_to_the_left, "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete Buffers to the Left" },
       { k.bufferline_prev_buffer, "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
       { k.bufferline_next_buffer, "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
@@ -25,6 +17,7 @@ return {
       { k.bufferline_next_buffer_alt, "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
       { k.bufferline_move_buffer_prev, "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer prev" },
       { k.bufferline_move_buffer_next, "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer next" },
+      { k.bufferline_pick, "<cmd>BufferLinePick<cr>", desc = "Pick Buffer" },
     },
     opts = {
       options = {

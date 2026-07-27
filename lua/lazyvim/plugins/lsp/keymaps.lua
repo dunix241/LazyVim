@@ -14,8 +14,8 @@ end
 ---@type LazyKeysLspSpec[]|nil
 M._keys = {}
 
----@alias LazyKeysLspSpec LazyKeysSpec|{has?:string|string[], enabled?:fun():boolean}
----@alias LazyKeysLsp LazyKeys|{has?:string|string[], enabled?:fun():boolean}
+---@alias LazyKeysLspSpec LazyKeysSpec|{has?:string|string[], enabled?:(fun(buf:number):boolean)}
+---@alias LazyKeysLsp LazyKeys|{has?:string|string[], enabled?:fun(buf:number):boolean}
 
 ---@deprecated
 ---@return LazyKeysLspSpec[]
