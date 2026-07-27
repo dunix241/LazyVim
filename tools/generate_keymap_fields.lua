@@ -39,9 +39,9 @@ local keys = {}
 for k, v in pairs(defaults) do
   local desc = v.desc or fallback[k]
   if desc then
-    keys[#keys + 1] = "---@field " .. k .. " string \"" .. desc .. " (default: " .. v.value .. ")\""
+    keys[#keys + 1] = "---@field " .. k .. " string? \"" .. desc .. " (default: " .. v.value .. ")\""
   else
-    keys[#keys + 1] = "---@field " .. k .. " string \"" .. v.value .. "\""
+    keys[#keys + 1] = "---@field " .. k .. " string? \"" .. v.value .. "\""
   end
 end
 table.sort(keys)
